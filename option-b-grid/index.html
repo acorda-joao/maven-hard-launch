@@ -5,11 +5,962 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maven — The Irreplaceable Skills of 2026</title>
   <link rel="stylesheet" href="../shared/styles.css">
+  <style>
+    body { overflow-x: hidden; }
+
+    /* === BACKGROUND (constrained to container) === */
+    .grid-bg {
+      position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+      max-width: 1440px; margin: 0 auto;
+      z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .grid-glow { position: absolute; inset: 0; }
+    .grid-glow--top { background: radial-gradient(ellipse at 50% 0%, rgba(28,54,141,0.4) 0%, transparent 60%); }
+    .grid-glow--bottom { background: radial-gradient(ellipse at 50% 100%, rgba(28,54,141,0.35) 0%, transparent 60%); }
+
+    /* === FULL-WIDTH HORIZONTAL RULES (extend beyond container) === */
+    .full-rule {
+      position: relative;
+    }
+    .full-rule::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100vw; height: 1px;
+      background: var(--lapis-accent-300);
+    }
+
+    /* === PAGE FRAME (1440px max-width with border lines) === */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 1440px; margin: 0 auto;
+      border-left: 1px solid var(--lapis-accent-300);
+      border-right: 1px solid var(--lapis-accent-300);
+      min-height: 100vh;
+    }
+
+    /* === NAV === */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 32px;
+    }
+    .nav-logo {
+      display: flex; align-items: center;
+      text-decoration: none;
+    }
+    .nav-logo svg { height: 20px; width: auto; }
+    .nav-tagline {
+      font-family: var(--font-serif); font-weight: 400; font-size: 16px;
+      color: #fff; letter-spacing: -0.48px;
+      font-feature-settings: 'ss01' 1;
+    }
+
+    /* === HERO === */
+    .hero {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 56px 56px 0;
+    }
+    .hero-headline {
+      font-family: var(--font-serif); font-weight: 300; font-size: 72px;
+      line-height: 80px; letter-spacing: -2.88px;
+      font-feature-settings: 'ss01' 1;
+      color: #fff; margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-family: var(--font-sans); font-weight: 400; font-size: 24px;
+      line-height: 32px; letter-spacing: -0.24px; color: var(--lapis-25);
+      font-feature-settings: 'ss01' 1;
+      margin-bottom: 28px;
+    }
+
+    /* === CTA (light style per Figma) === */
+    .hero-cta {
+      display: flex; gap: 11px; align-items: center;
+      justify-content: center; margin-bottom: 28px;
+    }
+    .hero-cta__input {
+      background: #fff; border: 1px solid #e5e5e5;
+      border-radius: 8px; height: 48px; padding: 0 16px;
+      font-family: var(--font-sans); font-size: 16px; font-weight: 400;
+      color: #171717; width: 280px; outline: none;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+      font-feature-settings: 'ss01' 1; letter-spacing: -0.16px;
+    }
+    .hero-cta__input::placeholder { color: #737373; }
+    .hero-cta__input:focus { border-color: var(--lapis-400); }
+    .hero-cta__btn {
+      background: #fff; border: 1px solid #e5e5e5;
+      border-radius: 8px; height: 48px; padding: 0 20px;
+      font-family: var(--font-sans); font-size: 16px; font-weight: 500;
+      color: #171717; cursor: pointer; white-space: nowrap;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+      font-feature-settings: 'ss01' 1; letter-spacing: -0.32px;
+      transition: background 0.15s;
+    }
+    .hero-cta__btn:hover { background: #f5f5f5; }
+
+    /* === PILLS (larger Figma style) === */
+    .pills-row {
+      display: flex; gap: 16px; justify-content: center;
+      flex-wrap: wrap; user-select: none;
+    }
+    .pill-lg {
+      font-family: var(--font-sans); font-weight: 500; font-size: 14px;
+      line-height: 18px; height: 36px;
+      padding: 0 16px; border-radius: 58px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+      font-feature-settings: 'ss01' 1;
+    }
+    .pill-lg--active {
+      background: rgba(36, 101, 232, 0.3);
+      border: 1px solid rgba(36, 101, 232, 0.5);
+      color: var(--brand-light);
+    }
+    .pill-lg--inactive {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    .pill-lg--inactive:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    /* === EXPERTS === */
+    .experts-section { padding: 28px 32px 24px; }
+    .experts-label {
+      font-family: var(--font-sans); font-weight: 500; font-size: 14px;
+      letter-spacing: 0.56px; text-transform: uppercase;
+      color: #fff; margin-bottom: 8px;
+    }
+    .experts-grid {
+      display: flex; gap: 16px; overflow: hidden;
+      transition: opacity 0.3s;
+    }
+    .expert-photo {
+      width: 200px; height: 200px; flex-shrink: 0;
+      border: 1px solid var(--lapis-accent-300);
+      object-fit: cover;
+    }
+
+    /* === REPORT === */
+    .report-section {
+      padding: 24px 32px 0;
+    }
+    .report-card {
+      background: var(--lapis-accent-700);
+      border: 1px solid var(--lapis-accent-300);
+      border-radius: 8px; padding: 32px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px; position: relative; overflow: hidden;
+    }
+    .report-card::after {
+      content: ''; position: absolute;
+      left: 0; right: 0; bottom: 0; height: 55%;
+      background: linear-gradient(to bottom, transparent 0%, var(--lapis-accent-700) 100%);
+      pointer-events: none; z-index: 2;
+    }
+    .chart-col { min-height: 320px; }
+    .chart-col__title {
+      font-family: var(--font-sans); font-weight: 500; font-size: 10px;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 20px;
+    }
+
+    /* === RACE CHART === */
+    .race-bars { display: flex; flex-direction: column; gap: 4px; }
+    .race-row { display: flex; align-items: center; gap: 8px; height: 26px; }
+    .race-name {
+      width: 130px; font-family: var(--font-sans); font-size: 11px;
+      font-weight: 500; text-align: right; flex-shrink: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      color: rgba(255,255,255,0.7);
+    }
+    .race-bar-wrap { flex: 1; height: 22px; position: relative; }
+    .race-bar {
+      height: 22px; border-radius: 3px; min-width: 2px;
+      transition: width 0.8s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    /* === SUNBURST === */
+    .sunburst-wrap {
+      display: flex; flex-direction: column; align-items: center;
+    }
+    #sunburstCanvas { cursor: default; }
+
+    /* === HEATMAP === */
+    .heatmap-header {
+      display: grid; grid-template-columns: 110px repeat(5, 1fr);
+      gap: 2px; margin-bottom: 4px;
+    }
+    .heatmap-header span {
+      font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.3); text-align: center;
+    }
+    .heatmap-header span:first-child { text-align: right; }
+    .heatmap-row {
+      display: grid; grid-template-columns: 110px repeat(5, 1fr);
+      gap: 2px; margin-bottom: 2px;
+    }
+    .heatmap-label {
+      font-family: var(--font-sans); font-size: 10px; font-weight: 500;
+      color: rgba(255,255,255,0.6); text-align: right;
+      padding-right: 8px; display: flex; align-items: center;
+      justify-content: flex-end;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .heatmap-cell {
+      height: 28px; border-radius: 3px;
+      transition: background 0.6s;
+    }
+  </style>
 </head>
 <body>
-  <!-- Option B (Grid Background): The Curtain -->
-  <!-- Background: Maven grid pattern (90px, #101b57) with radial gradient glows -->
-  <!-- See README.md for full layout specs -->
-  <!-- See reference/wireframes.md for dimensions -->
+  <div class="grid-bg">
+    <div class="grid-pattern"></div>
+    <div class="grid-glow grid-glow--top"></div>
+    <div class="grid-glow grid-glow--bottom"></div>
+  </div>
+
+  <div class="page">
+    <nav class="nav full-rule">
+      <a class="nav-logo" href="#"><svg width="147" height="32" viewBox="0 0 147 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.7139 0.854366C12.0261 0.854366 12.2789 1.10726 12.2789 1.41939V1.98669H1.13232V2.84105H12.2789V26.6061C12.2789 26.9182 12.0261 27.1711 11.7139 27.1711H11.1614V28.0255H20.0582V27.1711H19.5057C19.1936 27.1711 18.9407 26.9182 18.9407 26.6061V2.84105H30.101V1.98669H18.9407V1.41939C18.9407 1.10726 19.1936 0.854366 19.5057 0.854366H31.2345V0H0V0.854366H11.7139ZM16.9108 0.854366C17.2229 0.854366 17.4758 1.10726 17.4758 1.41939V26.6061C17.4758 26.9182 17.2229 27.1711 16.9108 27.1711H16.9085C16.5963 27.1711 16.3435 26.9182 16.3435 26.6061V1.41939C16.3435 1.10726 16.5963 0.854366 16.9085 0.854366H16.9108ZM14.3123 0.854366C14.6245 0.854366 14.8774 1.10726 14.8774 1.41939V26.6061C14.8774 26.9182 14.6245 27.1711 14.3123 27.1711H14.3101C13.9979 27.1711 13.745 26.9182 13.745 26.6061V1.41939C13.745 1.10726 13.9979 0.854366 14.3101 0.854366H14.3123Z" fill="white"/><path d="M28.9698 31.1457H28.4174C28.1052 31.1457 27.8523 30.8928 27.8523 30.5807V30.0134H30.1022V29.159H27.8523V5.394C27.8523 5.08187 28.1052 4.82898 28.4174 4.82898H28.9698V3.97461H20.073V4.82898H20.6255C20.9377 4.82898 21.1906 5.08187 21.1906 5.394V29.159H10.0451V5.394C10.0451 5.08187 10.298 4.82898 10.6101 4.82898H11.1626V3.97461H2.26578V4.82898H2.81827C3.1304 4.82898 3.38329 5.08187 3.38329 5.394V29.159H1.13232V30.0134H3.38215V30.5807C3.38215 30.8928 3.12926 31.1457 2.81713 31.1457H0V32.0001H31.2721V31.1457H28.9698ZM5.41326 31.1457C5.10114 31.1457 4.84824 30.8928 4.84824 30.5807V5.394C4.84824 5.08187 5.10114 4.82898 5.41326 4.82898H5.41554C5.72767 4.82898 5.98056 5.08187 5.98056 5.394V30.5807C5.98056 30.8928 5.72767 31.1457 5.41554 31.1457H5.41326ZM8.01168 31.1457C7.69955 31.1457 7.44666 30.8928 7.44666 30.5807V5.394C7.44666 5.08187 7.69955 4.82898 8.01168 4.82898H8.01395C8.32608 4.82898 8.57897 5.08187 8.57897 5.394V30.5807C8.57897 30.8928 8.32608 31.1457 8.01395 31.1457H8.01168ZM20.073 31.1457H10.6101C10.298 31.1457 10.0451 30.8928 10.0451 30.5807V30.0134H21.1906V30.5807C21.1906 30.8928 20.9377 31.1457 20.6255 31.1457H20.073ZM23.2205 31.1457C22.9084 31.1457 22.6555 30.8928 22.6555 30.5807V5.394C22.6555 5.08187 22.9084 4.82898 23.2205 4.82898H23.2228C23.5349 4.82898 23.7878 5.08187 23.7878 5.394V30.5807C23.7878 30.8928 23.5349 31.1457 23.2228 31.1457H23.2205ZM25.8189 31.1457C25.5068 31.1457 25.2539 30.8928 25.2539 30.5807V5.394C25.2539 5.08187 25.5068 4.82898 25.8189 4.82898H25.8212C26.1334 4.82898 26.3862 5.08187 26.3862 5.394V30.5807C26.3862 30.8928 26.1334 31.1457 25.8212 31.1457H25.8189Z" fill="white"/><path d="M103.372 8.64453C103.191 9.56383 102.919 10.5731 102.555 11.6724C102.218 12.7455 101.674 14.1888 100.921 16.0012L97.0704 25.0449L93.375 16.0012C92.6482 14.1865 92.1037 12.7443 91.7403 11.6724C91.3769 10.5743 91.1183 9.56497 90.9623 8.64453H85.7495C86.3977 9.59003 87.0071 10.6244 87.5779 11.7487C88.1748 12.8731 88.8754 14.3916 89.6785 16.3076L95.2797 29.7189H98.7803L104.382 16.3076C105.211 14.3916 105.911 12.8719 106.482 11.7487C107.053 10.6244 107.662 9.59003 108.31 8.64453H103.371H103.372Z" fill="white"/><path d="M125.631 13.5874C124.957 11.9026 123.959 10.5743 122.637 9.60378C121.314 8.60816 119.682 8.11035 117.735 8.11035C116.282 8.11035 114.909 8.39172 113.611 8.95333C112.34 9.51493 111.213 10.3066 110.227 11.3296C109.241 12.3252 108.463 13.5008 107.892 14.8553C107.348 16.2086 107.076 17.6656 107.076 19.2228C107.076 20.78 107.348 22.237 107.892 23.5903C108.463 24.9186 109.241 26.0817 110.227 27.0773C111.237 28.0729 112.378 28.8532 113.65 29.4148C114.947 29.9764 116.32 30.2578 117.772 30.2578C119.459 30.2578 120.846 29.989 121.935 29.4524C123.05 28.8908 123.918 28.2517 124.541 27.5364C125.191 26.7959 125.656 26.1443 125.942 25.5816L124.541 24.3934C123.97 25.2364 123.205 25.9142 122.247 26.4234C121.313 26.9349 120.12 27.1901 118.668 27.1901C117.215 27.1901 115.893 26.8324 114.7 26.117C113.532 25.4016 112.599 24.4447 111.899 23.2429C111.226 22.016 110.888 20.6752 110.888 19.2194H126.682C126.682 17.1245 126.332 15.2483 125.63 13.5874H125.631ZM111.199 16.3476C111.563 14.7642 112.263 13.5122 113.3 12.5929C114.337 11.6474 115.684 11.1747 117.345 11.1747C118.876 11.1747 120.069 11.6474 120.924 12.5929C121.78 13.5122 122.351 14.7653 122.637 16.3476H111.199Z" fill="white"/><path d="M78.2986 8.15072V8.14844C75.4462 8.14844 72.9697 8.88889 70.8691 10.3709L70.9853 14.3557H71.2575C72.0868 13.4102 73.0722 12.6572 74.2136 12.0956C75.3551 11.5078 76.5352 11.215 77.7541 11.215C79.1279 11.215 80.1657 11.6491 80.8663 12.5182C81.5669 13.3601 81.9941 14.7282 82.1501 16.6181C79.5301 16.2854 77.262 16.3492 75.3425 16.8106C73.4231 17.2697 71.933 18.0876 70.8691 19.2632C69.8324 20.4126 69.313 21.8809 69.313 23.6694C69.313 24.9214 69.6251 26.0446 70.2471 27.0413C70.8691 28.0369 71.712 28.8287 72.776 29.4176C73.84 29.9792 75.0327 30.2594 76.3552 30.2594C77.6778 30.2594 78.793 29.9655 79.7784 29.3789C80.7638 28.766 81.5019 27.8968 81.9952 26.7725H82.1513V29.9906H85.8854V18.1126C85.8592 14.6131 85.2498 12.0842 84.0571 10.5259C82.8644 8.94243 80.9449 8.15072 78.2998 8.15072H78.2986ZM82.1889 22.7456C82.1376 23.5635 81.8767 24.3176 81.4108 25.0068C80.9449 25.6721 80.3343 26.2063 79.5825 26.6153C78.8557 26.998 78.0401 27.1905 77.1321 27.1905C75.8609 27.1905 74.8755 26.8841 74.176 26.2712C73.4755 25.6584 73.1257 24.7892 73.1257 23.6649C73.1257 21.8775 73.9425 20.5869 75.5761 19.7952C77.2358 18.9784 79.4401 18.7221 82.1889 19.0285V22.7456Z" fill="white"/><path d="M146.46 14.5443V14.5466C146.28 13.3459 145.93 12.2603 145.411 11.2897C144.919 10.3192 144.178 9.55252 143.194 8.99092C142.234 8.40311 140.977 8.11035 139.421 8.11035C138.149 8.11035 137.139 8.26414 136.386 8.56943C135.635 8.87586 135.025 9.28482 134.558 9.79516C134.117 10.2816 133.703 10.8432 133.313 11.4811H133.041V8.37691L127.867 9.45V9.68011C128.229 10.2417 128.515 10.8295 128.722 11.4424C128.93 12.0552 129.086 12.8094 129.189 13.7025C129.293 14.5716 129.344 15.696 129.344 17.0744V21.2129C129.344 22.0183 129.332 22.8225 129.307 23.6279H129.308V29.7178H133.045V22.3498C133.042 21.9704 133.04 21.5911 133.04 21.2118V18.4151C133.117 17.2156 133.312 16.0662 133.623 14.9669C133.96 13.8688 134.531 12.962 135.335 12.2466C136.165 11.5312 137.344 11.1735 138.874 11.1735C139.86 11.1735 140.639 11.3911 141.208 11.8251C141.778 12.2592 142.194 12.8208 142.454 13.5111C142.713 14.2014 142.882 14.9669 142.959 15.8099C143.037 16.6267 143.077 17.4446 143.077 18.2625V21.2129C143.077 21.5695 143.073 21.9249 143.069 22.2814V29.719H146.772V18.2625C146.772 16.9855 146.667 15.7461 146.46 14.5454V14.5443Z" fill="white"/><path d="M52.7256 25.0531L42.7295 1.98633H37.478C37.8152 3.36584 38.0089 4.77156 38.0624 6.2012C38.1399 7.63084 38.1786 9.06162 38.1786 10.4935V30.0038H41.874V9.38286L50.8312 30.0038H54.1575L63.1147 9.38286V30.0038H67.0049V10.4935C67.0049 9.06276 67.0311 7.63312 67.0824 6.2012C67.1598 4.77042 67.3683 3.36584 67.7044 1.98633H62.8413L52.7268 25.0531H52.7256Z" fill="white"/></svg></a>
+      <span class="nav-tagline">Learn from Humans</span>
+    </nav>
+
+    <section class="hero">
+      <h1 class="hero-headline">The irreplaceable skills of 2026</h1>
+      <p class="hero-subtitle">The skills reshaping your career. The experts who teach them. Your personalized report.</p>
+      <div class="hero-cta">
+        <input type="email" class="hero-cta__input" placeholder="Enter your email">
+        <button class="hero-cta__btn">Get your report</button>
+      </div>
+      <div class="pills-row" id="pillsRow"></div>
+    </section>
+
+    <section class="experts-section full-rule">
+      <p class="experts-label">Top Experts</p>
+      <div class="experts-grid" id="expertsGrid"></div>
+    </section>
+
+    <section class="report-section">
+      <div class="report-card">
+        <div class="chart-col">
+          <div class="chart-col__title" id="raceTitle">The Skills Race</div>
+          <div class="race-bars" id="raceBars"></div>
+        </div>
+        <div class="chart-col">
+          <div class="chart-col__title" id="sunburstTitle">The Skill Map</div>
+          <div class="sunburst-wrap">
+            <canvas id="sunburstCanvas"></canvas>
+          </div>
+        </div>
+        <div class="chart-col">
+          <div class="chart-col__title">Skills &times; Seniority</div>
+          <div id="heatmap"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // =============================================
+    // ROLES
+    // =============================================
+    const ROLES = [
+      { key: 'ai', label: 'AI', center: 'AI' },
+      { key: 'product', label: 'Product', center: 'Product\nManagement' },
+      { key: 'engineering', label: 'Engineering', center: 'Software\nEngineering' },
+      { key: 'design', label: 'Design', center: 'Design' },
+      { key: 'marketing', label: 'Marketing', center: 'Marketing' },
+      { key: 'leadership', label: 'Leadership', center: 'Leadership' },
+      { key: 'founders', label: 'Founders', center: 'Founders' },
+    ];
+
+    // =============================================
+    // PER-ROLE DATA
+    // =============================================
+    const ROLE_DATA = {
+
+      ai: {
+        experts: [
+          { name: 'Jason Liu', skill: 'AI Engineering', img: 'jason-liu.png' },
+          { name: 'Shaw Talebi', skill: 'LLMOps', img: 'shaw-talebi.jpg' },
+          { name: 'Aishwarya Reganti', skill: 'Agentic AI', img: 'aishwarya-reganti.jpg' },
+          { name: 'Hamel Husain', skill: 'AI Evals', img: 'hamel-husain.jpg' },
+          { name: 'Bryan Bischof', skill: 'ML Engineering', img: 'bryan-bischof.png' },
+          { name: 'Elena Luneva', skill: 'AI Products', img: 'elena-luneva.png' },
+          { name: 'Mahesh Yadav', skill: 'AI Strategy', img: 'mahesh-yadav.png' },
+        ],
+        race: [
+          { skill: 'Agentic AI', value: 100, color: '#0D4D26' },
+          { skill: 'AI-Assisted Coding', value: 92, color: '#B85C1A' },
+          { skill: 'AI Evals', value: 85, color: '#D4880A' },
+          { skill: 'LLMOps', value: 78, color: '#1C41AB' },
+          { skill: 'Context Engineering', value: 72, color: '#E8A020' },
+          { skill: 'Multi-Agent Systems', value: 65, color: '#8B5FC0' },
+          { skill: 'AI Product Mgmt', value: 58, color: '#1B6B3A' },
+          { skill: 'RAG & Search', value: 50, color: '#2465EB' },
+          { skill: 'AI Strategy', value: 42, color: '#3E89FF' },
+          { skill: 'Workflow Automation', value: 35, color: '#6B3FA0' },
+        ],
+        skillMap: [
+          { id: 'sysdesign', label: 'System\nDesign', span: 45, color: '#101B57', aiChildren: [
+            { id: 'agentic', label: 'Agentic AI', span: 25 },
+            { id: 'multiagent', label: 'Multi-Agent\nSystems', span: 20 },
+          ]},
+          { id: 'dataanalysis', label: 'Data &\nAnalysis', span: 40, color: '#1C368D', aiChildren: [
+            { id: 'evals', label: 'AI Evals', span: 20 },
+            { id: 'rag', label: 'RAG &\nSearch', span: 20 },
+          ]},
+          { id: 'security', label: 'Security &\nGuardrails', span: 30, color: '#1C41AB', aiChildren: [] },
+          { id: 'softarch', label: 'Software\nArchitecture', span: 45, color: '#2465EB', aiChildren: [
+            { id: 'llmops', label: 'LLMOps', span: 25 },
+            { id: 'context', label: 'Context\nEngineering', span: 20 },
+          ]},
+          { id: 'perfeng', label: 'Performance\nEngineering', span: 35, color: '#3E89FF', aiChildren: [
+            { id: 'aicoding', label: 'AI-Assisted\nCoding', span: 35 },
+          ]},
+          { id: 'codequality', label: 'Code\nQuality', span: 30, color: '#71AEFF', aiChildren: [] },
+        ],
+        seniority: {
+          skills: ['Agentic AI', 'AI-Assisted Coding', 'AI Evals', 'LLMOps', 'Context Eng.', 'System Design'],
+          levels: ['IC', 'Senior', 'Manager', 'Director', 'VP+'],
+          values: [
+            [90, 95, 70, 50, 40],
+            [95, 90, 60, 40, 30],
+            [85, 90, 75, 60, 55],
+            [70, 80, 85, 90, 80],
+            [80, 85, 65, 50, 45],
+            [60, 75, 85, 95, 90],
+          ],
+        },
+      },
+
+      product: {
+        experts: [
+          { name: 'Shreyas Doshi', skill: 'Product Sense', img: 'shreyas-doshi.png' },
+          { name: 'Hamel Husain', skill: 'AI Evals', img: 'hamel-husain.jpg' },
+          { name: 'Marily Nika', skill: 'AI Products', img: 'marily-nika.jpg' },
+          { name: 'Aishwarya Reganti', skill: 'Agentic AI', img: 'aishwarya-reganti.jpg' },
+          { name: 'Ethan Evans', skill: 'Executive Comm', img: 'ethan-evans.jpg' },
+          { name: 'Wes Kao', skill: 'Exec Communication', img: 'wes-kao.jpg' },
+          { name: 'Colin Matthews', skill: 'Vibe Coding', img: 'colin-matthews.png' },
+        ],
+        race: [
+          { skill: 'Agentic AI', value: 100, color: '#0D4D26' },
+          { skill: 'Vibe Coding', value: 85, color: '#B85C1A' },
+          { skill: 'AI Evals', value: 75, color: '#D4880A' },
+          { skill: 'AI Product Mgmt', value: 70, color: '#1B6B3A' },
+          { skill: 'Context Engineering', value: 52, color: '#E8A020' },
+          { skill: 'Multi-Agent Systems', value: 45, color: '#8B5FC0' },
+          { skill: 'Product Sense', value: 38, color: '#101B57' },
+          { skill: 'Workflow Automation', value: 32, color: '#6B3FA0' },
+          { skill: 'Exec Communication', value: 25, color: '#1C368D' },
+          { skill: 'Research & Data', value: 18, color: '#2465EB' },
+        ],
+        skillMap: [
+          { id: 'stakeholder', label: 'Stakeholder\nManagement', span: 42, color: '#101B57', aiChildren: [] },
+          { id: 'execcomm', label: 'Executive\nCommunication', span: 42, color: '#1C368D', aiChildren: [] },
+          { id: 'productsense', label: 'Product\nSense', span: 42, color: '#1A2F7A', aiChildren: [] },
+          { id: 'productdev', label: 'Product\nDevelopment', span: 58, color: '#1C41AB', aiChildren: [
+            { id: 'aipm', label: 'AI Product\nManagement', span: 27 },
+            { id: 'agentic', label: 'Agentic AI', span: 31 },
+          ]},
+          { id: 'research', label: 'User Research\n& Discovery', span: 50, color: '#2465EB', aiChildren: [
+            { id: 'airesearch', label: 'AI-Powered\nResearch', span: 50 },
+          ]},
+          { id: 'metrics', label: 'Data Analysis\n& Metrics', span: 50, color: '#3E89FF', aiChildren: [
+            { id: 'evals', label: 'AI Evals', span: 28 },
+            { id: 'aimetrics', label: 'AI Product\nMetrics', span: 22 },
+          ]},
+          { id: 'specs', label: 'Specs, PRDs\n& Docs', span: 40, color: '#71AEFF', aiChildren: [
+            { id: 'vibe', label: 'Vibe Coding', span: 40 },
+          ]},
+          { id: 'gtm', label: 'Go-to-Market\n& Launch', span: 36, color: '#82D3FA', aiChildren: [
+            { id: 'automation', label: 'Workflow\nAutomation', span: 36 },
+          ]},
+        ],
+        seniority: {
+          skills: ['Agentic AI', 'Vibe Coding', 'AI Evals', 'Product Sense', 'Exec Comm', 'Research & Data'],
+          levels: ['IC', 'Senior', 'Manager', 'Director', 'VP+'],
+          values: [
+            [85, 90, 65, 45, 30],
+            [90, 85, 55, 35, 20],
+            [80, 85, 70, 55, 40],
+            [70, 85, 90, 95, 90],
+            [30, 50, 75, 90, 95],
+            [75, 80, 65, 50, 35],
+          ],
+        },
+      },
+
+      engineering: {
+        experts: [
+          { name: 'Jason Liu', skill: 'AI Engineering', img: 'jason-liu.png' },
+          { name: 'Bryan Bischof', skill: 'ML Systems', img: 'bryan-bischof.png' },
+          { name: 'Shaw Talebi', skill: 'LLMOps', img: 'shaw-talebi.jpg' },
+          { name: 'Xinran Ma', skill: 'System Design', img: 'xinran-ma.png' },
+          { name: 'Ronny Kohavi', skill: 'AI Evals', img: 'ronny-kohavi.jpg' },
+          { name: 'Elena Luneva', skill: 'AI Products', img: 'elena-luneva.png' },
+          { name: 'Everett Berry', skill: 'Code Quality', img: 'everett-berry.jpg' },
+        ],
+        race: [
+          { skill: 'Agentic AI', value: 100, color: '#0D4D26' },
+          { skill: 'AI-Assisted Coding', value: 90, color: '#B85C1A' },
+          { skill: 'System Design', value: 82, color: '#101B57' },
+          { skill: 'LLMOps', value: 75, color: '#1C41AB' },
+          { skill: 'AI Evals', value: 68, color: '#D4880A' },
+          { skill: 'Context Engineering', value: 60, color: '#E8A020' },
+          { skill: 'RAG & Search', value: 52, color: '#2465EB' },
+          { skill: 'Enterprise AI', value: 45, color: '#3E89FF' },
+          { skill: 'Software Architecture', value: 38, color: '#1C368D' },
+          { skill: 'Code Quality', value: 30, color: '#71AEFF' },
+        ],
+        skillMap: [
+          { id: 'sysdesign', label: 'System\nDesign', span: 50, color: '#101B57', aiChildren: [
+            { id: 'agentic', label: 'Agentic AI', span: 28 },
+            { id: 'multiagent', label: 'Multi-Agent\nSystems', span: 22 },
+          ]},
+          { id: 'softarch', label: 'Software\nArchitecture', span: 40, color: '#1C368D', aiChildren: [
+            { id: 'llmops', label: 'LLMOps', span: 40 },
+          ]},
+          { id: 'codequality', label: 'Code\nQuality', span: 35, color: '#1C41AB', aiChildren: [
+            { id: 'aicoding', label: 'AI-Assisted\nCoding', span: 35 },
+          ]},
+          { id: 'perfeng', label: 'Performance\nEngineering', span: 35, color: '#2465EB', aiChildren: [
+            { id: 'context', label: 'Context\nEngineering', span: 35 },
+          ]},
+          { id: 'dataanalysis', label: 'Data &\nAnalysis', span: 40, color: '#3E89FF', aiChildren: [
+            { id: 'evals', label: 'AI Evals', span: 25 },
+            { id: 'rag', label: 'RAG &\nSearch', span: 15 },
+          ]},
+          { id: 'engmgmt', label: 'Engineering\nManagement', span: 30, color: '#71AEFF', aiChildren: [] },
+        ],
+        seniority: {
+          skills: ['Agentic AI', 'AI-Assisted Coding', 'System Design', 'LLMOps', 'AI Evals', 'Code Quality'],
+          levels: ['IC', 'Senior', 'Manager', 'Director', 'VP+'],
+          values: [
+            [90, 95, 65, 45, 30],
+            [95, 90, 55, 35, 20],
+            [65, 80, 90, 95, 85],
+            [75, 85, 75, 60, 50],
+            [80, 85, 70, 55, 45],
+            [90, 85, 70, 50, 35],
+          ],
+        },
+      },
+
+      design: {
+        experts: [
+          { name: 'Vitaly Friedman', skill: 'AI Design', img: 'vitaly-friedman.jpg' },
+          { name: 'Hilary Gridley', skill: 'Design Systems', img: 'hilary-gridley.png' },
+          { name: 'Elena Luneva', skill: 'UX Strategy', img: 'elena-luneva.png' },
+          { name: 'Xinran Ma', skill: 'AI UX Patterns', img: 'xinran-ma.png' },
+          { name: 'Ben Erez', skill: 'Product Thinking', img: 'ben-erez.jpg' },
+          { name: 'Caitlin Sullivan', skill: 'AI Research', img: 'caitlin-sullivan.jpg' },
+          { name: 'Aman Khan', skill: 'Vibe Coding', img: 'aman-khan.jpg' },
+        ],
+        race: [
+          { skill: 'AI Design', value: 100, color: '#0D4D26' },
+          { skill: 'Vibe Coding', value: 88, color: '#B85C1A' },
+          { skill: 'Figma & Design Systems', value: 78, color: '#101B57' },
+          { skill: 'AI Design Research', value: 70, color: '#D4880A' },
+          { skill: 'UX Strategy', value: 62, color: '#1C368D' },
+          { skill: 'Claude Code for Design', value: 55, color: '#E8A020' },
+          { skill: 'Product Thinking', value: 48, color: '#1C41AB' },
+          { skill: 'Design Leadership', value: 40, color: '#2465EB' },
+          { skill: 'AI UX Patterns', value: 35, color: '#3E89FF' },
+          { skill: 'Workflow Automation', value: 28, color: '#6B3FA0' },
+        ],
+        skillMap: [
+          { id: 'figma', label: 'Figma &\nDesign Systems', span: 50, color: '#101B57', aiChildren: [
+            { id: 'aidesign', label: 'AI Design', span: 30 },
+            { id: 'aiux', label: 'AI UX\nPatterns', span: 20 },
+          ]},
+          { id: 'uxstrategy', label: 'UX\nStrategy', span: 40, color: '#1C368D', aiChildren: [
+            { id: 'airesearch', label: 'AI Design\nResearch', span: 40 },
+          ]},
+          { id: 'productthinking', label: 'Product\nThinking', span: 35, color: '#1C41AB', aiChildren: [
+            { id: 'vibe', label: 'Vibe Coding', span: 35 },
+          ]},
+          { id: 'leadership', label: 'Design\nLeadership', span: 35, color: '#2465EB', aiChildren: [
+            { id: 'claude', label: 'Claude Code\nfor Designers', span: 35 },
+          ]},
+          { id: 'workflow', label: 'Workflow\n& Process', span: 30, color: '#3E89FF', aiChildren: [
+            { id: 'automation', label: 'Workflow\nAutomation', span: 30 },
+          ]},
+          { id: 'ethics', label: 'Ethical\nDesign', span: 25, color: '#71AEFF', aiChildren: [] },
+        ],
+        seniority: {
+          skills: ['AI Design', 'Vibe Coding', 'Figma & Systems', 'AI Research', 'UX Strategy', 'Design Leadership'],
+          levels: ['IC', 'Senior', 'Manager', 'Director', 'VP+'],
+          values: [
+            [90, 90, 65, 45, 35],
+            [85, 80, 50, 30, 20],
+            [85, 90, 80, 65, 50],
+            [70, 80, 75, 60, 50],
+            [50, 65, 80, 90, 90],
+            [25, 40, 75, 90, 95],
+          ],
+        },
+      },
+
+      marketing: {
+        experts: [
+          { name: 'Caitlin Sullivan', skill: 'Customer Research', img: 'caitlin-sullivan.jpg' },
+          { name: 'Jess Goldberg', skill: 'Brand Strategy', img: 'jess-goldberg.jpg' },
+          { name: 'Annie Duke', skill: 'Decision Making', img: 'annie-duke.jpg' },
+          { name: 'Aman Khan', skill: 'GTM Engineering', img: 'aman-khan.jpg' },
+          { name: 'Dave Kline', skill: 'Growth Strategy', img: 'dave-kline.jpg' },
+          { name: 'Hilary Gridley', skill: 'Content Strategy', img: 'hilary-gridley.png' },
+          { name: 'Everett Berry', skill: 'AI Marketing', img: 'everett-berry.jpg' },
+        ],
+        race: [
+          { skill: 'AI Marketing Strategy', value: 100, color: '#0D4D26' },
+          { skill: 'Workflow Automation', value: 88, color: '#6B3FA0' },
+          { skill: 'AI Content Creation', value: 80, color: '#D4880A' },
+          { skill: 'GTM Engineering', value: 72, color: '#1C41AB' },
+          { skill: 'Growth & Demand Gen', value: 65, color: '#101B57' },
+          { skill: 'Customer Research', value: 58, color: '#2465EB' },
+          { skill: 'Personal Branding', value: 50, color: '#B85C1A' },
+          { skill: 'Data & Analytics', value: 42, color: '#3E89FF' },
+          { skill: 'Brand Strategy', value: 35, color: '#1C368D' },
+          { skill: 'Vibe Coding', value: 28, color: '#E8A020' },
+        ],
+        skillMap: [
+          { id: 'content', label: 'Content\nMarketing', span: 45, color: '#101B57', aiChildren: [
+            { id: 'aicontent', label: 'AI Content\nCreation', span: 25 },
+            { id: 'aimarketing', label: 'AI Marketing\nStrategy', span: 20 },
+          ]},
+          { id: 'growth', label: 'Growth &\nDemand Gen', span: 40, color: '#1C368D', aiChildren: [
+            { id: 'gtm', label: 'GTM\nEngineering', span: 40 },
+          ]},
+          { id: 'brand', label: 'Brand\nStrategy', span: 35, color: '#1C41AB', aiChildren: [
+            { id: 'personal', label: 'Personal\nBranding', span: 35 },
+          ]},
+          { id: 'analytics', label: 'Data &\nAnalytics', span: 35, color: '#2465EB', aiChildren: [
+            { id: 'customerresearch', label: 'Customer\nResearch', span: 35 },
+          ]},
+          { id: 'mktleadership', label: 'Marketing\nLeadership', span: 30, color: '#3E89FF', aiChildren: [
+            { id: 'automation', label: 'Workflow\nAutomation', span: 30 },
+          ]},
+          { id: 'linkedin', label: 'LinkedIn &\nSocial', span: 25, color: '#71AEFF', aiChildren: [] },
+        ],
+        seniority: {
+          skills: ['AI Marketing', 'Workflow Autom.', 'AI Content', 'GTM Engineering', 'Growth & Demand', 'Brand Strategy'],
+          levels: ['IC', 'Senior', 'Manager', 'Director', 'VP+'],
+          values: [
+            [85, 90, 70, 55, 40],
+            [80, 85, 75, 60, 45],
+            [90, 85, 65, 45, 30],
+            [70, 80, 80, 70, 55],
+            [80, 85, 80, 65, 50],
+            [40, 55, 70, 85, 90],
+          ],
+        },
+      },
+
+      leadership: {
+        experts: [
+          { name: 'Ethan Evans', skill: 'Executive Comm', img: 'ethan-evans.jpg' },
+          { name: 'Annie Duke', skill: 'Decision Making', img: 'annie-duke.jpg' },
+          { name: 'Dave Kline', skill: 'Leading Teams', img: 'dave-kline.jpg' },
+          { name: 'Wes Kao', skill: 'AI Strategy', img: 'wes-kao.jpg' },
+          { name: 'Jess Goldberg', skill: 'Career Growth', img: 'jess-goldberg.jpg' },
+          { name: 'Mahesh Yadav', skill: 'AI Technical', img: 'mahesh-yadav.png' },
+          { name: 'Ronny Kohavi', skill: 'Data-Driven', img: 'ronny-kohavi.jpg' },
+        ],
+        race: [
+          { skill: 'AI Strategy', value: 100, color: '#0D4D26' },
+          { skill: 'Agentic AI', value: 92, color: '#1B6B3A' },
+          { skill: 'Workflow Automation', value: 85, color: '#6B3FA0' },
+          { skill: 'Executive Communication', value: 78, color: '#1C368D' },
+          { skill: 'Leading Teams', value: 70, color: '#101B57' },
+          { skill: 'AI Technical Fluency', value: 62, color: '#D4880A' },
+          { skill: 'Decision Making', value: 55, color: '#1C41AB' },
+          { skill: 'Career Growth', value: 48, color: '#2465EB' },
+          { skill: 'Data-Driven Leadership', value: 40, color: '#3E89FF' },
+          { skill: 'Product Strategy', value: 32, color: '#B85C1A' },
+        ],
+        skillMap: [
+          { id: 'decision', label: 'Decision Making\n& Strategy', span: 50, color: '#101B57', aiChildren: [
+            { id: 'aistrategy', label: 'AI\nStrategy', span: 30 },
+            { id: 'agentic', label: 'Agentic AI', span: 20 },
+          ]},
+          { id: 'execcomm', label: 'Executive\nCommunication', span: 45, color: '#1C368D', aiChildren: [] },
+          { id: 'teams', label: 'Leading\nTeams', span: 40, color: '#1C41AB', aiChildren: [
+            { id: 'perfmgmt', label: 'Performance\nMgmt', span: 40 },
+          ]},
+          { id: 'careergrowth', label: 'Career\nGrowth', span: 35, color: '#2465EB', aiChildren: [
+            { id: 'ailiteracy', label: 'AI\nLiteracy', span: 35 },
+          ]},
+          { id: 'productstrat', label: 'Product\nStrategy', span: 30, color: '#3E89FF', aiChildren: [
+            { id: 'aitechfluency', label: 'AI Technical\nFluency', span: 30 },
+          ]},
+          { id: 'dataleadership', label: 'Data-Driven\nLeadership', span: 25, color: '#71AEFF', aiChildren: [
+            { id: 'automation', label: 'Workflow\nAutomation', span: 25 },
+          ]},
+        ],
+        seniority: {
+          skills: ['AI Strategy', 'Agentic AI', 'Exec Comm', 'Leading Teams', 'AI Technical', 'Decision Making'],
+          levels: ['IC', 'Senior', 'Manager', 'Director', 'VP+'],
+          values: [
+            [40, 55, 70, 90, 95],
+            [60, 70, 65, 55, 45],
+            [35, 50, 75, 90, 95],
+            [45, 55, 80, 90, 90],
+            [50, 60, 65, 80, 85],
+            [55, 65, 80, 90, 95],
+          ],
+        },
+      },
+
+      founders: {
+        experts: [
+          { name: 'Ben Erez', skill: 'Product-Market Fit', img: 'ben-erez.jpg' },
+          { name: 'Colin Matthews', skill: 'Vibe Coding', img: 'colin-matthews.png' },
+          { name: 'Aman Khan', skill: 'AI-Native Products', img: 'aman-khan.jpg' },
+          { name: 'Caitlin Sullivan', skill: 'Customer Research', img: 'caitlin-sullivan.jpg' },
+          { name: 'Xinran Ma', skill: 'Scaling Teams', img: 'xinran-ma.png' },
+          { name: 'Shaw Talebi', skill: 'AI Strategy', img: 'shaw-talebi.jpg' },
+          { name: 'Annie Duke', skill: 'Decision Making', img: 'annie-duke.jpg' },
+        ],
+        race: [
+          { skill: 'AI-Native Products', value: 100, color: '#0D4D26' },
+          { skill: 'Vibe Coding', value: 90, color: '#B85C1A' },
+          { skill: 'Workflow Automation', value: 82, color: '#6B3FA0' },
+          { skill: 'Product Strategy', value: 75, color: '#101B57' },
+          { skill: 'Scaling Teams', value: 68, color: '#1C368D' },
+          { skill: 'GTM & Growth', value: 60, color: '#1C41AB' },
+          { skill: 'Fundraising', value: 52, color: '#2465EB' },
+          { skill: 'Product-Market Fit', value: 45, color: '#3E89FF' },
+          { skill: 'Customer Research', value: 38, color: '#D4880A' },
+          { skill: 'Exec Communication', value: 30, color: '#1C368D' },
+        ],
+        skillMap: [
+          { id: 'productstrat', label: 'Product\nStrategy', span: 45, color: '#101B57', aiChildren: [
+            { id: 'ainative', label: 'AI-Native\nProducts', span: 25 },
+            { id: 'pmfit', label: 'Product-\nMarket Fit', span: 20 },
+          ]},
+          { id: 'teams', label: 'Scaling\nTeams', span: 40, color: '#1C368D', aiChildren: [
+            { id: 'vibe', label: 'Vibe\nCoding', span: 40 },
+          ]},
+          { id: 'gtm', label: 'GTM &\nGrowth', span: 35, color: '#1C41AB', aiChildren: [
+            { id: 'automation', label: 'Workflow\nAutomation', span: 35 },
+          ]},
+          { id: 'fundraising', label: 'Fundraising', span: 30, color: '#2465EB', aiChildren: [
+            { id: 'discovery', label: 'Product\nDiscovery', span: 30 },
+          ]},
+          { id: 'decision', label: 'Decision\nMaking', span: 35, color: '#3E89FF', aiChildren: [
+            { id: 'customerresearch', label: 'Customer\nResearch', span: 35 },
+          ]},
+          { id: 'execcomm', label: 'Executive\nComm', span: 30, color: '#71AEFF', aiChildren: [] },
+          { id: 'bizmodels', label: 'Business\nModels', span: 25, color: '#82D3FA', aiChildren: [] },
+        ],
+        seniority: {
+          skills: ['AI-Native Products', 'Vibe Coding', 'Product Strategy', 'Scaling Teams', 'GTM & Growth', 'Fundraising'],
+          levels: ['IC', 'Senior', 'Manager', 'Director', 'VP+'],
+          values: [
+            [90, 85, 70, 60, 55],
+            [95, 85, 60, 40, 30],
+            [60, 70, 80, 90, 95],
+            [40, 50, 70, 85, 90],
+            [70, 75, 80, 85, 80],
+            [30, 40, 55, 75, 90],
+          ],
+        },
+      },
+    };
+
+    // =============================================
+    // STATE
+    // =============================================
+    let activeIndex = 1;
+    let rotationTimer = null;
+    let pauseTimer = null;
+    const ROTATION_MS = 6000;
+    const PAUSE_MS = 10000;
+
+    let sbCanvas, sbCtx, sbW, sbH, sbCx, sbCy;
+    let sbAnim = { r1: 0, r2: 0 };
+    let sbTarget = { r1: 1, r2: 1 };
+    let sbHover = null;
+    let sbAreas = [];
+
+    // =============================================
+    // PILLS
+    // =============================================
+    function renderPills() {
+      const el = document.getElementById('pillsRow');
+      el.innerHTML = ROLES.map((r, i) =>
+        `<span class="pill-lg ${i === activeIndex ? 'pill-lg--active' : 'pill-lg--inactive'}" data-idx="${i}">${r.label}</span>`
+      ).join('');
+      el.addEventListener('click', e => {
+        const pill = e.target.closest('.pill-lg');
+        if (!pill) return;
+        setActiveRole(parseInt(pill.dataset.idx));
+        pauseRotation();
+      });
+    }
+
+    function updatePills() {
+      document.querySelectorAll('.pill-lg').forEach((p, i) => {
+        p.className = `pill-lg ${i === activeIndex ? 'pill-lg--active' : 'pill-lg--inactive'}`;
+      });
+    }
+
+    // =============================================
+    // EXPERTS
+    // =============================================
+    function renderExperts() {
+      const data = ROLE_DATA[ROLES[activeIndex].key].experts;
+      document.getElementById('expertsGrid').innerHTML = data.map(e =>
+        `<img class="expert-photo" src="../images/${e.img}" alt="${e.name}" title="${e.name} — ${e.skill}">`
+      ).join('');
+    }
+
+    // =============================================
+    // RACE CHART
+    // =============================================
+    function renderRaceChart() {
+      const data = ROLE_DATA[ROLES[activeIndex].key].race;
+      const el = document.getElementById('raceBars');
+      el.innerHTML = data.map(d =>
+        `<div class="race-row">
+          <span class="race-name">${d.skill}</span>
+          <div class="race-bar-wrap">
+            <div class="race-bar" data-w="${d.value}" style="width:0;background:${d.color}"></div>
+          </div>
+        </div>`
+      ).join('');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          el.querySelectorAll('.race-bar').forEach(b => { b.style.width = b.dataset.w + '%'; });
+        });
+      });
+      document.getElementById('raceTitle').textContent = 'The Skills Race \u2014 ' + ROLES[activeIndex].label;
+    }
+
+    // =============================================
+    // SUNBURST
+    // =============================================
+    function initSunburst() {
+      sbCanvas = document.getElementById('sunburstCanvas');
+      sbCtx = sbCanvas.getContext('2d');
+      resizeSunburst();
+      sbCanvas.addEventListener('mousemove', handleSbMove);
+      sbCanvas.addEventListener('mouseleave', () => { sbHover = null; sbCanvas.style.cursor = 'default'; });
+      window.addEventListener('resize', () => { resizeSunburst(); });
+      sbTarget.r1 = 1; sbTarget.r2 = 1;
+      sbTick();
+    }
+
+    function resizeSunburst() {
+      const wrap = sbCanvas.parentElement;
+      const s = Math.min(wrap.offsetWidth - 8, 380);
+      const dpr = window.devicePixelRatio || 1;
+      sbCanvas.width = s * dpr; sbCanvas.height = s * dpr;
+      sbCanvas.style.width = s + 'px'; sbCanvas.style.height = s + 'px';
+      sbCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      sbW = s; sbH = s; sbCx = s / 2; sbCy = s / 2;
+    }
+
+    function drawSunburst() {
+      if (!sbW) return;
+      const data = ROLE_DATA[ROLES[activeIndex].key].skillMap;
+      const ctx = sbCtx;
+      ctx.clearRect(0, 0, sbW, sbH);
+      sbAreas.length = 0;
+
+      const cx = sbCx, cy = sbCy;
+      const r0 = sbW * 0.14;
+      const r1i = r0 + 3;
+      const r1o = sbW * 0.32;
+      const r2i = r1o + 3;
+      const r2o = sbW * 0.46;
+      const gap = 0.012;
+
+      // Center
+      ctx.beginPath(); ctx.arc(cx, cy, r0, 0, Math.PI * 2);
+      ctx.fillStyle = '#080C28'; ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = '#fff';
+      const fs = sbW * 0.035;
+      ctx.font = '600 ' + fs + 'px "STK Bureau Sans", sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const cLines = ROLES[activeIndex].center.split('\n');
+      const lh = fs * 1.3;
+      cLines.forEach((ln, i) => ctx.fillText(ln, cx, cy + (i - (cLines.length - 1) / 2) * lh));
+
+      if (sbAnim.r1 <= 0.01) return;
+      const totalSpan = data.reduce((a, s) => a + s.span, 0);
+      let angle = -Math.PI / 2;
+
+      data.forEach(seg => {
+        const segA = (seg.span / totalSpan) * Math.PI * 2 * sbAnim.r1;
+        const sA = angle + gap, eA = angle + segA - gap;
+        if (eA > sA) {
+          const hasAI = seg.aiChildren && seg.aiChildren.length > 0;
+          const oR = hasAI ? r1o : r2o;
+          const hov = sbHover === seg.id;
+
+          ctx.beginPath(); ctx.arc(cx, cy, r1i, sA, eA); ctx.arc(cx, cy, oR, eA, sA, true); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.globalAlpha = hov ? 1 : 0.85; ctx.fill();
+          if (hov) { ctx.strokeStyle = '#CDFF92'; ctx.lineWidth = 2; ctx.stroke(); }
+          ctx.globalAlpha = 1;
+          sbAreas.push({ sA, eA, iR: r1i, oR, id: seg.id });
+
+          if ((eA - sA) > 0.2 && sbAnim.r1 > 0.4)
+            drawSbLabel((sA + eA) / 2, (r1i + oR) / 2, seg.label, '#fff', sbW * 0.018, hov);
+
+          if (sbAnim.r2 > 0.01 && hasAI) {
+            let cA = angle + gap;
+            seg.aiChildren.forEach(ch => {
+              const cSegA = (ch.span / totalSpan) * Math.PI * 2 * sbAnim.r1;
+              const csA = cA + gap, ceA = cA + cSegA - gap;
+              if (ceA > csA) {
+                const chHov = sbHover === ch.id;
+                ctx.beginPath(); ctx.arc(cx, cy, r2i, csA, ceA); ctx.arc(cx, cy, r2o, ceA, csA, true); ctx.closePath();
+                ctx.fillStyle = '#080C28'; ctx.globalAlpha = sbAnim.r2 * (chHov ? 1 : 0.88); ctx.fill();
+                if (chHov) { ctx.globalAlpha = 1; ctx.strokeStyle = '#CDFF92'; ctx.lineWidth = 2; ctx.stroke(); }
+                ctx.globalAlpha = 1;
+                sbAreas.push({ sA: csA, eA: ceA, iR: r2i, oR: r2o, id: ch.id });
+                if ((ceA - csA) > 0.15 && sbAnim.r2 > 0.4)
+                  drawSbLabel((csA + ceA) / 2, (r2i + r2o) / 2, ch.label, '#CDFF92', sbW * 0.016, chHov);
+              }
+              cA += cSegA;
+            });
+          }
+        }
+        angle += segA;
+      });
+
+      document.getElementById('sunburstTitle').textContent = 'The Skill Map \u2014 ' + ROLES[activeIndex].label;
+    }
+
+    function drawSbLabel(midA, labelR, text, color, fontSize, hl) {
+      const ctx = sbCtx;
+      const lx = sbCx + Math.cos(midA) * labelR;
+      const ly = sbCy + Math.sin(midA) * labelR;
+      ctx.save(); ctx.translate(lx, ly);
+      let rot = midA;
+      if (midA > Math.PI * 0.5 || midA < -Math.PI * 0.5) rot += Math.PI;
+      ctx.rotate(rot);
+      ctx.fillStyle = color;
+      ctx.font = (hl ? '700 ' : '500 ') + fontSize + 'px "STK Bureau Sans", sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const lines = text.split('\n');
+      const lh = fontSize * 1.3;
+      lines.forEach((ln, i) => ctx.fillText(ln, 0, (i - (lines.length - 1) / 2) * lh));
+      ctx.restore();
+    }
+
+    function handleSbMove(e) {
+      const rect = sbCanvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+      const dx = mx - sbCx, dy = my - sbCy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const ang = Math.atan2(dy, dx);
+      let found = null;
+      for (let i = sbAreas.length - 1; i >= 0; i--) {
+        const s = sbAreas[i];
+        if (dist >= s.iR && dist <= s.oR) {
+          let a = ((ang % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+          let sa = ((s.sA % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+          let ea = ((s.eA % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+          if (sa <= ea ? (a >= sa && a <= ea) : (a >= sa || a <= ea)) { found = s; break; }
+        }
+      }
+      const nid = found ? found.id : null;
+      if (nid !== sbHover) { sbHover = nid; sbCanvas.style.cursor = found ? 'pointer' : 'default'; }
+    }
+
+    function sbTick() {
+      const sp = 0.07;
+      sbAnim.r1 += (sbTarget.r1 - sbAnim.r1) * sp;
+      sbAnim.r2 += (sbTarget.r2 - sbAnim.r2) * sp;
+      if (Math.abs(sbAnim.r1 - sbTarget.r1) < 0.003) sbAnim.r1 = sbTarget.r1;
+      if (Math.abs(sbAnim.r2 - sbTarget.r2) < 0.003) sbAnim.r2 = sbTarget.r2;
+      drawSunburst();
+      requestAnimationFrame(sbTick);
+    }
+
+    // =============================================
+    // HEATMAP
+    // =============================================
+    function heatColor(v) {
+      if (v >= 80) return 'rgba(124,190,255,0.75)';
+      if (v >= 60) return 'rgba(62,137,255,0.55)';
+      if (v >= 40) return 'rgba(36,101,232,0.4)';
+      if (v >= 20) return 'rgba(28,54,141,0.3)';
+      return 'rgba(16,27,87,0.15)';
+    }
+
+    function renderHeatmap() {
+      const d = ROLE_DATA[ROLES[activeIndex].key].seniority;
+      let h = '<div class="heatmap-header"><span></span>';
+      d.levels.forEach(l => { h += '<span>' + l + '</span>'; });
+      h += '</div>';
+      d.skills.forEach((sk, si) => {
+        h += '<div class="heatmap-row"><span class="heatmap-label">' + sk + '</span>';
+        d.values[si].forEach(v => {
+          h += '<div class="heatmap-cell" style="background:' + heatColor(v) + '"></div>';
+        });
+        h += '</div>';
+      });
+      document.getElementById('heatmap').innerHTML = h;
+    }
+
+    // =============================================
+    // ROLE SWITCHING
+    // =============================================
+    function setActiveRole(idx) {
+      if (idx === activeIndex) return;
+      const grid = document.getElementById('expertsGrid');
+      grid.style.opacity = '0';
+      setTimeout(() => {
+        activeIndex = idx;
+        updatePills();
+        renderExperts();
+        renderRaceChart();
+        renderHeatmap();
+        sbAnim.r1 = 0; sbAnim.r2 = 0;
+        sbTarget.r1 = 1; sbTarget.r2 = 1;
+        grid.style.opacity = '1';
+      }, 300);
+    }
+
+    // =============================================
+    // AUTO-ROTATION
+    // =============================================
+    function startRotation() {
+      stopRotation();
+      rotationTimer = setInterval(() => {
+        setActiveRole((activeIndex + 1) % ROLES.length);
+      }, ROTATION_MS);
+    }
+    function stopRotation() {
+      if (rotationTimer) { clearInterval(rotationTimer); rotationTimer = null; }
+      if (pauseTimer) { clearTimeout(pauseTimer); pauseTimer = null; }
+    }
+    function pauseRotation() {
+      stopRotation();
+      pauseTimer = setTimeout(startRotation, PAUSE_MS);
+    }
+
+    // =============================================
+    // INIT
+    // =============================================
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPills();
+      renderExperts();
+      renderRaceChart();
+      initSunburst();
+      renderHeatmap();
+      startRotation();
+    });
+  </script>
 </body>
 </html>

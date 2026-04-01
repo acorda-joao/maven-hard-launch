@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maven Hard Launch — Prototypes</title>
+  <link rel="stylesheet" href="shared/styles.css">
+  <style>
+    .hub {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+    }
+    .hub-logo {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: 32px;
+      color: #fff;
+      letter-spacing: -1px;
+      font-feature-settings: 'ss01' 1;
+      margin-bottom: 8px;
+    }
+    .hub-subtitle {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 56px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 32px;
+      text-decoration: none;
+      color: #fff;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(36, 101, 232, 0.3);
+    }
+    .card-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brand-light);
+      margin-bottom: 12px;
+    }
+    .card-title {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: 28px;
+      line-height: 1.15;
+      letter-spacing: -0.8px;
+      font-feature-settings: 'ss01' 1;
+      margin-bottom: 12px;
+    }
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.4);
+      flex: 1;
+    }
+    .card-arrow {
+      margin-top: 24px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--brand-light);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .card:hover .card-arrow {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="hub">
+    <div class="hub-logo">maven</div>
+    <div class="hub-subtitle">Hard Launch Prototypes</div>
+    <div class="cards">
+      <a class="card" href="option-a/">
+        <span class="card-label">Option A</span>
+        <h2 class="card-title">The Human Wall</h2>
+        <p class="card-desc">Split layout. Face wall on the right, role rotation drives headline, skill tags, and instructor grid.</p>
+        <span class="card-arrow">Open prototype &rarr;</span>
+      </a>
+      <a class="card" href="option-b-photo/">
+        <span class="card-label">Option B &mdash; Photo</span>
+        <h2 class="card-title">The Curtain</h2>
+        <p class="card-desc">Centered layout. Faded instructor photo grid as background. Face strip and report preview below the fold.</p>
+        <span class="card-arrow">Open prototype &rarr;</span>
+      </a>
+      <a class="card" href="option-b-grid/">
+        <span class="card-label">Option B &mdash; Grid</span>
+        <h2 class="card-title">The Curtain</h2>
+        <p class="card-desc">Centered layout. Maven grid pattern with radial gradient glows. Same content, brand-forward background.</p>
+        <span class="card-arrow">Open prototype &rarr;</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

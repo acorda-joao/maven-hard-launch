@@ -5,12 +5,343 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maven — Learn from Humans</title>
   <link rel="stylesheet" href="../shared/styles.css">
+  <style>
+    .page {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 56px;
+      position: relative;
+      z-index: 10;
+      flex-shrink: 0;
+    }
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: 24px;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -1px;
+      font-feature-settings: 'ss01' 1;
+    }
+    .nav-pills {
+      display: flex;
+      gap: 5px;
+      user-select: none;
+    }
+
+    .split {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .left-col {
+      width: 420px;
+      flex-shrink: 0;
+      padding-left: 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-headline {
+      margin-bottom: 24px;
+    }
+    .hero-line {
+      display: block;
+    }
+    .hero-role {
+      color: var(--brand-light);
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .supporting-copy {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      max-width: 340px;
+    }
+    .cta-row {
+      display: flex;
+      gap: 8px;
+    }
+    .cta-row .email-input {
+      flex: 1;
+      width: auto;
+      min-width: 0;
+    }
+    .cta-row .cta-button {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .right-col {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .face-grid {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0;
+      right: 0;
+      display: flex;
+      gap: 10px;
+      padding: 0 16px;
+      transition: opacity 0.35s ease;
+    }
+    .face-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      will-change: transform;
+    }
+    .face-col:nth-child(1) { transform: translateY(-40px); }
+    .face-col:nth-child(2) { transform: translateY(50px); }
+    .face-col:nth-child(3) { transform: translateY(-15px); }
+    .face-col:nth-child(4) { transform: translateY(35px); }
+
+    .face-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        linear-gradient(to bottom, var(--lapis-900) 0%, transparent 12%),
+        linear-gradient(to top, var(--lapis-900) 0%, transparent 12%),
+        linear-gradient(to right, var(--lapis-900) 0%, transparent 10%);
+    }
+
+    .instructor-card {
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+    .instructor-card:hover {
+      transform: scale(1.03);
+      z-index: 2;
+    }
+
+    @keyframes slideOut {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-10px); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-out { animation: slideOut 0.25s ease forwards; }
+    .animate-in  { animation: slideIn 0.3s ease forwards; }
+  </style>
 </head>
 <body>
-  <!-- Option A: The Human Wall -->
-  <!-- See README.md for full layout specs -->
-  <!-- See reference/wireframes.md for dimensions -->
-  <!-- Data: load from ../data/pm-skills-taxonomy.json and ../data/pm-experts.json -->
-  <!-- Images: ../images/[name].jpg or .png -->
+  <div class="page">
+    <nav class="nav">
+      <a class="nav-logo" href="#">maven</a>
+      <div class="nav-pills" id="navPills"></div>
+    </nav>
+    <main class="split">
+      <div class="left-col">
+        <h1 class="hero-headline headline-lg">
+          <span class="hero-line">Learn</span>
+          <span class="hero-line hero-role" id="heroRole">Product Management</span>
+          <span class="hero-line">from humans.</span>
+        </h1>
+        <div class="skill-tags" id="skillTags"></div>
+        <p class="supporting-copy">The irreplaceable skills of 2026 — taught by the experts who've mastered them.</p>
+        <div class="cta-row">
+          <input type="email" class="email-input" placeholder="Enter your email">
+          <button class="cta-button">Get your report</button>
+        </div>
+      </div>
+      <div class="right-col">
+        <div class="face-grid" id="faceGrid"></div>
+        <div class="face-overlay"></div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ROLES = [
+      {
+        name: 'Product',
+        label: 'Product Management',
+        skills: ['Product Sense', 'AI Product Management', 'Agentic AI', 'Executive Communication', 'Vibe Coding', 'AI Evals']
+      },
+      {
+        name: 'Engineering',
+        label: 'Engineering',
+        skills: ['Systems Design', 'AI/ML Engineering', 'DevOps & Infra', 'Backend Architecture', 'Code Quality', 'AI Evals']
+      },
+      {
+        name: 'Design',
+        label: 'Design',
+        skills: ['UX Research', 'Interaction Design', 'Design Systems', 'Visual Design', 'Prototyping', 'AI Design Tools']
+      },
+      {
+        name: 'Marketing',
+        label: 'Marketing',
+        skills: ['Growth Strategy', 'Content Marketing', 'SEO & SEM', 'Brand Strategy', 'Marketing Analytics', 'AI Marketing']
+      },
+      {
+        name: 'Sales',
+        label: 'Sales',
+        skills: ['Enterprise Sales', 'Sales Operations', 'Account Management', 'Negotiation', 'CRM Strategy', 'AI Sales Tools']
+      },
+      {
+        name: 'Leadership',
+        label: 'Leadership',
+        skills: ['Strategic Planning', 'Team Building', 'Change Management', 'Decision Making', 'Executive Presence', 'AI Strategy']
+      },
+      {
+        name: 'Founders',
+        label: 'Entrepreneurship',
+        skills: ['Fundraising', 'Product-Market Fit', 'Hiring & Culture', 'Go-to-Market', 'Financial Planning', 'AI Strategy']
+      }
+    ];
+
+    const GRID_COLUMNS = [
+      [
+        { name: 'Shreyas Doshi', skill: 'Product Sense', img: 'shreyas-doshi.png' },
+        { name: 'Marily Nika', skill: 'AI Products', img: 'marily-nika.jpg' },
+        { name: 'Ethan Evans', skill: 'Executive Influence', img: 'ethan-evans.jpg' },
+        { name: 'Annie Duke', skill: 'Decision Science', img: 'annie-duke.jpg' },
+        { name: 'Elena Luneva', skill: 'Product Design', img: 'elena-luneva.png' },
+      ],
+      [
+        { name: 'Hamel Husain', skill: 'AI Evals', img: 'hamel-husain.jpg' },
+        { name: 'Aishwarya Reganti', skill: 'Agentic AI', img: 'aishwarya-reganti.jpg' },
+        { name: 'Wes Kao', skill: 'Exec Communication', img: 'wes-kao.jpg' },
+        { name: 'Dave Kline', skill: 'Leadership', img: 'dave-kline.jpg' },
+        { name: 'Shaw Talebi', skill: 'Data Science', img: 'shaw-talebi.jpg' },
+      ],
+      [
+        { name: 'Mahesh Yadav', skill: 'Product Sense', img: 'mahesh-yadav.png' },
+        { name: 'Colin Matthews', skill: 'Vibe Coding', img: 'colin-matthews.png' },
+        { name: 'Ronny Kohavi', skill: 'AI Evals', img: 'ronny-kohavi.jpg' },
+        { name: 'Jess Goldberg', skill: 'Magnetic Leadership', img: 'jess-goldberg.jpg' },
+        { name: 'Hilary Gridley', skill: 'Product Ops', img: 'hilary-gridley.png' },
+      ],
+      [
+        { name: 'Ben Erez', skill: 'Product Strategy', img: 'ben-erez.jpg' },
+        { name: 'Vitaly Friedman', skill: 'Design Systems', img: 'vitaly-friedman.jpg' },
+        { name: 'Jason Liu', skill: 'AI Engineering', img: 'jason-liu.png' },
+        { name: 'Caitlin Sullivan', skill: 'User Research', img: 'caitlin-sullivan.jpg' },
+        { name: 'Everett Berry', skill: 'Growth Strategy', img: 'everett-berry.jpg' },
+      ]
+    ];
+
+    let activeIndex = 0;
+    let rotationInterval = null;
+    let resumeTimeout = null;
+    let isTransitioning = false;
+
+    function renderPills() {
+      const container = document.getElementById('navPills');
+      container.innerHTML = ROLES.map((role, i) =>
+        `<span class="pill ${i === 0 ? 'pill--active' : 'pill--inactive'} nav-pill" data-index="${i}">${role.name}</span>`
+      ).join('');
+
+      container.addEventListener('click', (e) => {
+        const pill = e.target.closest('.nav-pill');
+        if (!pill) return;
+        const index = parseInt(pill.dataset.index);
+        setActiveRole(index);
+        pauseRotation();
+      });
+    }
+
+    function renderSkillTags(skills) {
+      return skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+    }
+
+    function renderFaceGrid() {
+      const container = document.getElementById('faceGrid');
+      container.innerHTML = GRID_COLUMNS.map(col =>
+        `<div class="face-col">${col.map(inst =>
+          `<div class="instructor-card" style="background-image: url('../images/${inst.img}')">
+            <span class="instructor-card__name">${inst.name}</span>
+            <span class="instructor-card__skill">${inst.skill}</span>
+          </div>`
+        ).join('')}</div>`
+      ).join('');
+    }
+
+    function updatePills(index) {
+      document.querySelectorAll('.nav-pill').forEach((pill, i) => {
+        pill.className = `pill ${i === index ? 'pill--active' : 'pill--inactive'} nav-pill`;
+      });
+    }
+
+    function setActiveRole(index) {
+      if (index === activeIndex || isTransitioning) return;
+      isTransitioning = true;
+
+      const roleEl = document.getElementById('heroRole');
+      const tagsEl = document.getElementById('skillTags');
+      const gridEl = document.getElementById('faceGrid');
+
+      updatePills(index);
+
+      roleEl.classList.add('animate-out');
+      tagsEl.classList.add('animate-out');
+      gridEl.style.opacity = '0.5';
+
+      setTimeout(() => {
+        roleEl.textContent = ROLES[index].label;
+        tagsEl.innerHTML = renderSkillTags(ROLES[index].skills);
+
+        roleEl.classList.remove('animate-out');
+        roleEl.classList.add('animate-in');
+        tagsEl.classList.remove('animate-out');
+        tagsEl.classList.add('animate-in');
+        gridEl.style.opacity = '1';
+
+        setTimeout(() => {
+          roleEl.classList.remove('animate-in');
+          tagsEl.classList.remove('animate-in');
+          activeIndex = index;
+          isTransitioning = false;
+        }, 300);
+      }, 250);
+    }
+
+    function startRotation() {
+      rotationInterval = setInterval(() => {
+        const next = (activeIndex + 1) % ROLES.length;
+        setActiveRole(next);
+      }, 5000);
+    }
+
+    function pauseRotation() {
+      clearInterval(rotationInterval);
+      rotationInterval = null;
+      clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(startRotation, 12000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPills();
+      document.getElementById('skillTags').innerHTML = renderSkillTags(ROLES[0].skills);
+      renderFaceGrid();
+      startRotation();
+    });
+  </script>
 </body>
 </html>
