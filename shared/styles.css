@@ -1,0 +1,245 @@
+/* ============================================
+   Maven Hard Launch — Shared Design System
+   Extracted from maven-expert-pages
+   ============================================ */
+
+/* --- Font Faces --- */
+@font-face { font-family: "STK Bureau Sans"; src: url("../fonts/STKBureauSans-Book.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "STK Bureau Sans"; src: url("../fonts/STKBureauSans-BookItalic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "STK Bureau Sans"; src: url("../fonts/STKBureauSans-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "STK Bureau Sans"; src: url("../fonts/STKBureauSans-MediumItalic.woff2") format("woff2"); font-weight: 500; font-style: italic; font-display: swap; }
+@font-face { font-family: "STK Bureau Sans"; src: url("../fonts/STKBureauSans-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "STK Bureau Sans"; src: url("../fonts/STKBureauSans-SemiBoldItalic.woff2") format("woff2"); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: "STK Bureau Serif"; src: url("../fonts/STKBureauSerif-Light.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: "STK Bureau Serif"; src: url("../fonts/STKBureauSerif-Book.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+
+/* --- CSS Custom Properties --- */
+:root {
+  /* Lapis (Blue) — Primary Brand */
+  --lapis-25: #f7fbff;
+  --lapis-50: #deefff;
+  --lapis-100: #b2d3fa;
+  --lapis-200: #71aeff;
+  --lapis-300: #3e89ff;
+  --lapis-400: #2465e8;
+  --lapis-500: #1e51ca;
+  --lapis-600: #1c41ab;
+  --lapis-700: #1c368d;
+  --lapis-800: #101b57;
+  --lapis-900: #080c28;
+
+  /* Lapis Accent */
+  --lapis-accent-100: #d2dfff;
+  --lapis-accent-200: #8da5ff;
+  --lapis-accent-300: #333a5a;
+  --lapis-accent-500: #1e2542;
+  --lapis-accent-700: #101531;
+
+  /* Brand tokens */
+  --brand-light: #7cbeff;
+  --brand-medium: #0e88ff;
+  --brand-highlight: #cdff92;
+  --maven-primary: #009e3d;
+
+  /* Font stacks */
+  --font-sans: "STK Bureau Sans", system-ui, -apple-system, sans-serif;
+  --font-serif: "STK Bureau Serif", Georgia, "Times New Roman", serif;
+
+  /* Grid pattern */
+  --grid-color: #101b57;
+  --grid-cell-size: 90px;
+}
+
+/* --- Reset --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #fff;
+  background-color: var(--lapis-900);
+}
+img { display: block; max-width: 100%; }
+input { font-family: inherit; }
+
+/* --- Typography Presets --- */
+.font-serif { font-family: var(--font-serif); }
+.font-sans { font-family: var(--font-sans); }
+
+.headline-xl {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 76px;
+  line-height: 1.05;
+  letter-spacing: -3px;
+  font-feature-settings: 'ss01' 1;
+}
+.headline-lg {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  font-feature-settings: 'ss01' 1;
+}
+.headline-md {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+  font-feature-settings: 'ss01' 1;
+}
+.body-lg { font-size: 17px; line-height: 1.55; }
+.body-md { font-size: 16px; line-height: 1.5; }
+.body-sm { font-size: 14px; line-height: 1.5; }
+.caption { font-size: 12px; line-height: 1.4; }
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+/* --- Color Utilities --- */
+.text-lapis-100 { color: var(--lapis-100); }
+.text-lapis-400 { color: var(--lapis-400); }
+.text-brand-light { color: var(--brand-light); }
+.text-muted { color: rgba(255, 255, 255, 0.45); }
+.text-subtle { color: rgba(255, 255, 255, 0.35); }
+.bg-lapis-900 { background-color: var(--lapis-900); }
+.bg-lapis-800 { background-color: var(--lapis-800); }
+
+/* --- Gradient Presets (from expert landing page) --- */
+.gradient-fade-down {
+  background: linear-gradient(to bottom,
+    rgba(8,12,40,0) 0%, rgba(8,12,40,0.03) 10%, rgba(8,12,40,0.1) 22%,
+    rgba(8,12,40,0.22) 33%, rgba(8,12,40,0.38) 43%, rgba(8,12,40,0.55) 52%,
+    rgba(8,12,40,0.72) 61%, rgba(8,12,40,0.88) 70%, var(--lapis-900) 80%);
+}
+.gradient-glow-top {
+  background: radial-gradient(ellipse at 50% 0%, rgba(28,54,141,0.4) 0%, transparent 60%);
+}
+.gradient-glow-bottom {
+  background: radial-gradient(ellipse at 50% 100%, rgba(28,54,141,0.35) 0%, transparent 60%);
+}
+
+/* --- Component Patterns --- */
+.pill {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pill--active {
+  font-weight: 500;
+  background-color: rgba(36, 101, 232, 0.25);
+  border: 1px solid rgba(36, 101, 232, 0.4);
+  color: var(--brand-light);
+}
+.pill--inactive {
+  font-weight: 400;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.35);
+}
+.pill--inactive:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.email-input {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 14px 20px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #fff;
+  outline: none;
+  width: 240px;
+}
+.email-input::placeholder { color: rgba(255, 255, 255, 0.35); }
+.email-input:focus { border-color: rgba(36, 101, 232, 0.5); }
+
+.cta-button {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 14px 24px;
+  background-color: var(--brand-light);
+  color: var(--lapis-900);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.cta-button:hover { background-color: #93ccff; }
+
+.skill-tag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  padding: 4px 10px;
+  background-color: rgba(124, 190, 255, 0.1);
+  border: 1px solid rgba(124, 190, 255, 0.2);
+  border-radius: 4px;
+  color: rgba(124, 190, 255, 0.7);
+}
+
+/* --- Grid Pattern Background --- */
+.grid-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: var(--grid-cell-size) var(--grid-cell-size);
+  opacity: 0.4;
+}
+
+/* --- Instructor Card --- */
+.instructor-card {
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  aspect-ratio: 3/4;
+  background-size: cover;
+  background-position: center;
+}
+.instructor-card__name {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.instructor-card__skill {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  position: relative;
+  z-index: 1;
+}
+.instructor-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8,12,40,0.8) 0%, transparent 50%);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .headline-xl { font-size: 48px; letter-spacing: -2px; }
+  .headline-lg { font-size: 36px; letter-spacing: -1.5px; }
+}

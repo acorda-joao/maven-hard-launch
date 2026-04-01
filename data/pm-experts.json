@@ -1,0 +1,12 @@
+[
+  {"name":"Shreyas Doshi","cred":"$7.2M GMV","tag":"Product Sense","bio":"Former PM at Stripe, Twitter. #1 course on Maven."},
+  {"name":"Hamel Husain","cred":"$5.1M GMV","tag":"AI Evals","bio":"#2 course on Maven. AI Evals framework for GitHub Copilot."},
+  {"name":"Product Faculty","cred":"$4.3M GMV","tag":"AI PM","bio":"Leading AI PM certification. 68K+ learners."},
+  {"name":"Marily Nika","cred":"$2.0M GMV","tag":"AI Products","bio":"Google Gen AI PM Lead."},
+  {"name":"Aishwarya Reganti","cred":"$1.9M GMV","tag":"Agentic AI","bio":"96K learners. Top Agentic AI instructor."},
+  {"name":"Mahesh Yadav","cred":"172K learners","tag":"Product Sense","bio":"Google Gen AI Product Lead."},
+  {"name":"Ethan Evans","cred":"$1.1M GMV","tag":"Exec Comm","bio":"Ex-Amazon VP, 70+ patents."},
+  {"name":"Wes Kao","cred":"$1.2M GMV","tag":"Exec Comm","bio":"Maven co-founder."},
+  {"name":"Colin Matthews","cred":"$727K GMV","tag":"Vibe Coding","bio":"AI prototyping pioneer for PMs."},
+  {"name":"Ronny Kohavi","cred":"$463K GMV","tag":"AI Evals","bio":"A/B Testing pioneer. Ex-Airbnb, Microsoft."}
+]

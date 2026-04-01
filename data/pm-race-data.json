@@ -1,0 +1,122 @@
+{
+  "years": [2021, 2022, 2023, 2024, 2025],
+  "colors": {
+    "Product Sense & Strategy": "#101B57",
+    "Executive Communication": "#1C368D",
+    "Career Growth": "#1C41AB",
+    "Research & Data Analysis": "#2465EB",
+    "Product Discovery": "#3E89FF",
+    "AI Product Metrics": "#71AEFF",
+    "AI Product Management": "#1B6B3A",
+    "Agentic AI": "#0D4D26",
+    "Vibe Coding": "#B85C1A",
+    "AI Evals": "#D4880A",
+    "Context Engineering": "#E8A020",
+    "Workflow Automation": "#6B3FA0",
+    "Multi-Agent Systems": "#8B5FC0"
+  },
+  "data": {
+    "2021": [
+      {"skill": "Product Sense & Strategy", "value": 100},
+      {"skill": "Executive Communication", "value": 88},
+      {"skill": "Career Growth", "value": 78},
+      {"skill": "Research & Data Analysis", "value": 68},
+      {"skill": "Product Discovery", "value": 55},
+      {"skill": "AI Product Metrics", "value": 42},
+      {"skill": "Workflow Automation", "value": 20},
+      {"skill": "AI Product Management", "value": 8},
+      {"skill": "Agentic AI", "value": 3},
+      {"skill": "AI Evals", "value": 2}
+    ],
+    "2022": [
+      {"skill": "Product Sense & Strategy", "value": 100},
+      {"skill": "Executive Communication", "value": 85},
+      {"skill": "Career Growth", "value": 75},
+      {"skill": "Research & Data Analysis", "value": 65},
+      {"skill": "Product Discovery", "value": 50},
+      {"skill": "AI Product Metrics", "value": 38},
+      {"skill": "AI Product Management", "value": 25},
+      {"skill": "Workflow Automation", "value": 22},
+      {"skill": "Agentic AI", "value": 8},
+      {"skill": "AI Evals", "value": 5}
+    ],
+    "2023": [
+      {"skill": "Product Sense & Strategy", "value": 85},
+      {"skill": "AI Product Management", "value": 72},
+      {"skill": "Executive Communication", "value": 68},
+      {"skill": "Career Growth", "value": 60},
+      {"skill": "Research & Data Analysis", "value": 50},
+      {"skill": "Agentic AI", "value": 45},
+      {"skill": "AI Product Metrics", "value": 32},
+      {"skill": "Workflow Automation", "value": 30},
+      {"skill": "AI Evals", "value": 28},
+      {"skill": "Vibe Coding", "value": 22}
+    ],
+    "2024": [
+      {"skill": "Agentic AI", "value": 88},
+      {"skill": "AI Product Management", "value": 82},
+      {"skill": "Product Sense & Strategy", "value": 62},
+      {"skill": "Vibe Coding", "value": 60},
+      {"skill": "AI Evals", "value": 52},
+      {"skill": "Executive Communication", "value": 42},
+      {"skill": "Workflow Automation", "value": 35},
+      {"skill": "Context Engineering", "value": 30},
+      {"skill": "Research & Data Analysis", "value": 28},
+      {"skill": "Multi-Agent Systems", "value": 18}
+    ],
+    "2025": [
+      {"skill": "Agentic AI", "value": 100},
+      {"skill": "Vibe Coding", "value": 85},
+      {"skill": "AI Evals", "value": 75},
+      {"skill": "AI Product Management", "value": 70},
+      {"skill": "Context Engineering", "value": 52},
+      {"skill": "Multi-Agent Systems", "value": 45},
+      {"skill": "Product Sense & Strategy", "value": 38},
+      {"skill": "Workflow Automation", "value": 32},
+      {"skill": "Executive Communication", "value": 25},
+      {"skill": "Research & Data Analysis", "value": 18}
+    ]
+  },
+  "annotations": {
+    "2021": {
+      "title": "The pre-AI baseline",
+      "body": "Product Sense & Strategy and Executive Communication have topped PM skill lists for a decade. AI skills are invisible — fewer than 10% of learners are interested.",
+      "callout": null,
+      "risers": [],
+      "fallers": []
+    },
+    "2022": {
+      "title": "ChatGPT changes everything",
+      "body": "AI Product Management triples from 8 to 25 as PMs scramble to understand what LLMs mean for their roadmaps. Traditional skills still hold the top 5, but the ground is shifting fast.",
+      "callout": "Nov 2022 — ChatGPT launches. PM demand for AI skills spikes within weeks.",
+      "risers": [{"skill": "AI Product Management", "delta": "+17"}, {"skill": "Agentic AI", "delta": "+5"}],
+      "fallers": [{"skill": "Product Discovery", "delta": "-5"}, {"skill": "AI Product Metrics", "delta": "-4"}]
+    },
+    "2023": {
+      "title": "The great reshuffling",
+      "body": "AI Product Management leaps to #2, nearly overtaking Product Strategy. Agentic AI explodes from 8 to 45. Vibe Coding appears for the first time as PMs start building prototypes themselves.",
+      "callout": "Mar 2023 — GPT-4 launches. 'AI PM' becomes a real job title.",
+      "risers": [{"skill": "Agentic AI", "delta": "+37"}, {"skill": "AI Product Management", "delta": "+47"}, {"skill": "AI Evals", "delta": "+23"}],
+      "fallers": [{"skill": "Product Sense & Strategy", "delta": "-15"}, {"skill": "Career Growth", "delta": "-15"}]
+    },
+    "2024": {
+      "title": "AI skills take the lead",
+      "body": "Agentic AI is now #1. Vibe Coding rockets to #4 — PMs are building, not just specifying. Context Engineering and Multi-Agent Systems emerge as new disciplines.",
+      "callout": "Feb 2024 — Claude 3 launches. AI-native prototyping goes mainstream.",
+      "risers": [{"skill": "Vibe Coding", "delta": "+38"}, {"skill": "Context Engineering", "delta": "NEW"}, {"skill": "Multi-Agent Systems", "delta": "NEW"}],
+      "fallers": [{"skill": "Product Sense & Strategy", "delta": "-23"}, {"skill": "Executive Communication", "delta": "-26"}]
+    },
+    "2025": {
+      "title": "The new stack is set",
+      "body": "The top 4 are all AI skills. Product Sense & Strategy — the perennial #1 for a decade — has dropped to #7. The PM who can't build, evaluate, and orchestrate AI is falling behind.",
+      "callout": "Feb 2025 — Claude Code released. Vibe coding becomes a daily PM workflow.",
+      "risers": [{"skill": "Vibe Coding", "delta": "+25"}, {"skill": "Context Engineering", "delta": "+22"}, {"skill": "Multi-Agent Systems", "delta": "+27"}],
+      "fallers": [{"skill": "Executive Communication", "delta": "-17"}, {"skill": "Research & Data Analysis", "delta": "-10"}]
+    }
+  },
+  "milestones": {
+    "2022": "ChatGPT",
+    "2024": "Claude 3",
+    "2025": "Claude Code"
+  }
+}

@@ -1,0 +1,267 @@
+[
+  {
+    "id": "stakeholder",
+    "label": "Stakeholder Management",
+    "span": 42,
+    "color": "#101B57",
+    "desc": "Managing cross-functional relationships, aligning teams, and navigating organizational dynamics.",
+    "aiChildren": [],
+    "experts": [
+      {"name": "Wes Kao", "cred": "Maven co-founder, $1.2M GMV"},
+      {"name": "Jess Goldberg", "cred": "Magnetic Leadership"}
+    ],
+    "lls": [
+      {"title": "How to Get Executive Buy-in as a PM", "instructor": "Wes Kao"},
+      {"title": "Magnetic Leadership for PMs", "instructor": "Jess Goldberg"}
+    ],
+    "courses": [
+      {"title": "Executive Communication & Influence", "instructor": "Ethan Evans"}
+    ]
+  },
+  {
+    "id": "execcomm",
+    "label": "Executive Communication",
+    "span": 42,
+    "color": "#1C368D",
+    "desc": "Presence, clarity, and influence to engage and persuade senior leaders. Enduring at every level.",
+    "aiChildren": [],
+    "experts": [
+      {"name": "Ethan Evans", "cred": "Ex-Amazon VP, 94K learners"},
+      {"name": "Dave Kline", "cred": "$549K GMV"}
+    ],
+    "lls": [
+      {"title": "Communication That Builds Authority", "instructor": "Mahdi Raza"},
+      {"title": "Be More Effective: Persuasive Communication", "instructor": "Sheila O'Sullivan"},
+      {"title": "Get Executive Buy-in for AI Strategy", "instructor": "Mahesh Yadav"}
+    ],
+    "courses": [
+      {"title": "Beyond Senior Manager", "instructor": "Ethan Evans"},
+      {"title": "Executive Communication & Influence", "instructor": "Ethan Evans"}
+    ]
+  },
+  {
+    "id": "productsense",
+    "label": "Product Sense",
+    "span": 42,
+    "color": "#1A2F7A",
+    "desc": "Intuition for product quality, user needs, and strategic tradeoffs. The hardest skill to teach — still the #1 hiring signal.",
+    "aiChildren": [],
+    "experts": [
+      {"name": "Shreyas Doshi", "cred": "#1 course on Maven, $7.2M GMV"},
+      {"name": "Ben Erez", "cred": "35K signups"}
+    ],
+    "lls": [
+      {"title": "Product Sense in the Age of AI", "instructor": "Mahesh Yadav"},
+      {"title": "3 Mistakes in AI Product Sense Interviews", "instructor": "Coach Pri"}
+    ],
+    "courses": [
+      {"title": "World-class Product Sense in Practice", "instructor": "Shreyas Doshi"}
+    ]
+  },
+  {
+    "id": "productdev",
+    "label": "Product Development",
+    "span": 58,
+    "color": "#1C41AB",
+    "desc": "End-to-end product lifecycle — ideation, scoping, building, and shipping.",
+    "aiChildren": [
+      {
+        "id": "aipm",
+        "label": "AI Product Management",
+        "span": 27,
+        "desc": "Understanding LLM capabilities, limitations, and AI-native product patterns.",
+        "experts": [
+          {"name": "Marily Nika", "cred": "Google Gen AI PM Lead"},
+          {"name": "Product Faculty", "cred": "$4.3M GMV"}
+        ],
+        "lls": [
+          {"title": "Transitioning into AI Product Management", "instructor": "Derya Isler"},
+          {"title": "Build a Real AI Product in 60 Min", "instructor": "Aki Wijesundara"},
+          {"title": "Positioning Secrets for AI Products", "instructor": "Abhishek Ratna"}
+        ],
+        "courses": [
+          {"title": "AI Product Management Certification", "instructor": "Product Faculty"}
+        ]
+      },
+      {
+        "id": "agentic",
+        "label": "Agentic AI",
+        "span": 31,
+        "desc": "Designing products that use autonomous AI agents. The fastest-growing PM skill in 2025.",
+        "experts": [
+          {"name": "Aishwarya Reganti", "cred": "$1.9M GMV, 96K learners"},
+          {"name": "Mahesh Yadav", "cred": "Google, 172K learners"}
+        ],
+        "lls": [
+          {"title": "Build Your First AI Agent", "instructor": "Jacob Bank"},
+          {"title": "Hands-On with Agents & MCP", "instructor": "Alexey Grigorev"},
+          {"title": "Context Engineering for AI Agents", "instructor": "Hugo Bowne-Anderson"},
+          {"title": "Scale Human Oversight of AI Agents", "instructor": "Carmelo Iaria"}
+        ],
+        "courses": [
+          {"title": "Agent Engineering Bootcamp", "instructor": "Aishwarya Reganti"}
+        ]
+      }
+    ],
+    "experts": [],
+    "lls": [],
+    "courses": []
+  },
+  {
+    "id": "research",
+    "label": "User Research & Discovery",
+    "span": 50,
+    "color": "#2465EB",
+    "desc": "Understanding users through interviews, surveys, data, and testing. The foundation of good product decisions.",
+    "aiChildren": [
+      {
+        "id": "airesearch",
+        "label": "AI-Powered Research",
+        "span": 50,
+        "desc": "Using synthetic users, AI analysis, and automated discovery to accelerate research 10x.",
+        "experts": [
+          {"name": "Caitlin Sullivan", "cred": "21K signups"},
+          {"name": "Moiz Kapadia", "cred": "AI Discovery"}
+        ],
+        "lls": [
+          {"title": "Synthetic Users for Product Discovery", "instructor": "Caitlin Sullivan"},
+          {"title": "AI-Powered Customer Discovery Sprint", "instructor": "Moiz Kapadia"},
+          {"title": "AI-powered Data Analysis with Claude", "instructor": "George Xing"}
+        ],
+        "courses": []
+      }
+    ],
+    "experts": [
+      {"name": "Caitlin Sullivan", "cred": "21K signups, Synthetic Users"},
+      {"name": "Christine Perfetti", "cred": "UX Research pioneer"}
+    ],
+    "lls": [
+      {"title": "Drive Customer Discovery with Strategic UX Research", "instructor": "Christine Perfetti"},
+      {"title": "User Research, with AI — Build an AI Research Assistant", "instructor": "Felix Oginni"}
+    ],
+    "courses": [
+      {"title": "Synthetic Users for Product Discovery", "instructor": "Caitlin Sullivan"}
+    ]
+  },
+  {
+    "id": "metrics",
+    "label": "Data Analysis & Metrics",
+    "span": 50,
+    "color": "#3E89FF",
+    "desc": "Defining KPIs, running analyses, and making data-driven decisions.",
+    "aiChildren": [
+      {
+        "id": "evals",
+        "label": "AI Evals",
+        "span": 28,
+        "desc": "Testing non-deterministic AI systems. The new quality bar — companies are mandating this skill.",
+        "experts": [
+          {"name": "Hamel Husain", "cred": "parlance-labs, $5.1M GMV"},
+          {"name": "Ronny Kohavi", "cred": "A/B Testing pioneer"}
+        ],
+        "lls": [
+          {"title": "How Evals Made GitHub Copilot Happen", "instructor": "John Berryman"},
+          {"title": "Evaluating AI Agents", "instructor": "Amir Feizpour"},
+          {"title": "A/B Testing Replication Crisis", "instructor": "Ronny Kohavi"}
+        ],
+        "courses": [
+          {"title": "AI Evals For Engineers & PMs", "instructor": "Hamel Husain"}
+        ]
+      },
+      {
+        "id": "aimetrics",
+        "label": "AI Product Metrics",
+        "span": 22,
+        "desc": "Frameworks for measuring AI product performance when traditional metrics don't apply.",
+        "experts": [
+          {"name": "Sriram Natarajan", "cred": "AI Product Leader"}
+        ],
+        "lls": [
+          {"title": "How Product Leaders Evaluate AI Features", "instructor": "Sriram Natarajan"}
+        ],
+        "courses": []
+      }
+    ],
+    "experts": [
+      {"name": "Ronny Kohavi", "cred": "A/B Testing pioneer, $463K GMV"},
+      {"name": "Bryan Bischof", "cred": "Data leader"}
+    ],
+    "lls": [
+      {"title": "A/B Testing Replication Crisis: Lessons from 10 Tests", "instructor": "Ronny Kohavi"},
+      {"title": "AI-powered Data Analysis with Claude and MCP", "instructor": "George Xing"}
+    ],
+    "courses": [
+      {"title": "Quick Introduction to A/B Testing", "instructor": "Ronny Kohavi"}
+    ]
+  },
+  {
+    "id": "specs",
+    "label": "Specs, PRDs & Documentation",
+    "span": 40,
+    "color": "#71AEFF",
+    "desc": "Writing requirements, specifications, and product documentation. Being replaced by building directly.",
+    "aiChildren": [
+      {
+        "id": "vibe",
+        "label": "Vibe Coding / Prototyping",
+        "span": 40,
+        "desc": "PMs building functional prototypes with Claude Code, Cursor, and v0 instead of writing specs.",
+        "experts": [
+          {"name": "Colin Matthews", "cred": "$727K GMV, 75K learners"},
+          {"name": "Harold Dijkstra", "cred": "Vibe Coding pioneer"}
+        ],
+        "lls": [
+          {"title": "Vibe Coding 101: Kickstart 2026", "instructor": "Harold Dijkstra"},
+          {"title": "Create MVPs with AI Coding Tools", "instructor": "Corentin Cremet"},
+          {"title": "AI Prototyping for Product Managers", "instructor": "Colin Matthews"}
+        ],
+        "courses": [
+          {"title": "AI Prototyping for PMs in 2025", "instructor": "Colin Matthews"}
+        ]
+      }
+    ],
+    "experts": [
+      {"name": "Colin Matthews", "cred": "$727K GMV, AI Prototyping"},
+      {"name": "Harold Dijkstra", "cred": "Vibe Coding pioneer"}
+    ],
+    "lls": [
+      {"title": "From Zero to Claude Code Pro (For PMs)", "instructor": "Product Faculty"},
+      {"title": "How Super ICs Use No-Code x AI", "instructor": "Harold Dijkstra"}
+    ],
+    "courses": [
+      {"title": "AI Prototyping for PMs in 2025", "instructor": "Colin Matthews"}
+    ]
+  },
+  {
+    "id": "gtm",
+    "label": "Go-to-Market & Launch",
+    "span": 36,
+    "color": "#82D3FA",
+    "desc": "Planning and executing product launches, positioning, and go-to-market strategy.",
+    "aiChildren": [
+      {
+        "id": "automation",
+        "label": "Workflow Automation",
+        "span": 36,
+        "desc": "AI-powered workflows replacing manual PM processes — discovery, prioritization, reporting.",
+        "experts": [
+          {"name": "Gowri Sivanathan", "cred": "AI Workflow expert"}
+        ],
+        "lls": [
+          {"title": "Build Smarter Workflows with AI", "instructor": "Gowri Sivanathan"},
+          {"title": "From Raw Data to Automated Insights", "instructor": "Manisha Arora"}
+        ],
+        "courses": []
+      }
+    ],
+    "experts": [
+      {"name": "Gowri Sivanathan", "cred": "AI Workflow expert"},
+      {"name": "Manisha Arora", "cred": "AI Insights"}
+    ],
+    "lls": [
+      {"title": "10x Productivity: AI Tools & Agents in Action", "instructor": "Sanjay Saxena"},
+      {"title": "Kitted Out: One PM's GenAI ToolStack", "instructor": "Dennis Yang"}
+    ],
+    "courses": []
+  }
+]

@@ -1,0 +1,106 @@
+{
+  "by_function": [
+    {
+      "function": "People / HR",
+      "reimb_rate": 68,
+      "n": 44,
+      "avg_reimb_price": 844,
+      "avg_self_price": 795
+    },
+    {
+      "function": "Biz Ops & Strategy",
+      "reimb_rate": 53,
+      "n": 165,
+      "avg_reimb_price": 829,
+      "avg_self_price": 834
+    },
+    {
+      "function": "Marketing",
+      "reimb_rate": 53,
+      "n": 396,
+      "avg_reimb_price": 831,
+      "avg_self_price": 653
+    },
+    {
+      "function": "Finance",
+      "reimb_rate": 52,
+      "n": 255,
+      "avg_reimb_price": 861,
+      "avg_self_price": 852
+    },
+    {
+      "function": "Data & Analytics",
+      "reimb_rate": 42,
+      "n": 245,
+      "avg_reimb_price": 982,
+      "avg_self_price": 936
+    },
+    {
+      "function": "Sales",
+      "reimb_rate": 41,
+      "n": 107,
+      "avg_reimb_price": 884,
+      "avg_self_price": 678
+    },
+    {
+      "function": "Design",
+      "reimb_rate": 38,
+      "n": 1147,
+      "avg_reimb_price": 652,
+      "avg_self_price": 560
+    },
+    {
+      "function": "Engineering",
+      "reimb_rate": 36,
+      "n": 2150,
+      "avg_reimb_price": 1030,
+      "avg_self_price": 885
+    },
+    {
+      "function": "Product",
+      "reimb_rate": 35,
+      "n": 1425,
+      "avg_reimb_price": 1007,
+      "avg_self_price": 968
+    },
+    {
+      "function": "Founder / CEO",
+      "reimb_rate": 27,
+      "n": 1031,
+      "avg_reimb_price": 852,
+      "avg_self_price": 784
+    }
+  ],
+  "by_level": [
+    {
+      "level": "VP",
+      "reimb_rate": 45,
+      "n": 136
+    },
+    {
+      "level": "C-Suite",
+      "reimb_rate": 42,
+      "n": 1639
+    },
+    {
+      "level": "Manager",
+      "reimb_rate": 41,
+      "n": 2178
+    },
+    {
+      "level": "Senior IC",
+      "reimb_rate": 40,
+      "n": 1683
+    },
+    {
+      "level": "IC / Other",
+      "reimb_rate": 28,
+      "n": 3666
+    },
+    {
+      "level": "Founder",
+      "reimb_rate": 20,
+      "n": 708
+    }
+  ]
+}
