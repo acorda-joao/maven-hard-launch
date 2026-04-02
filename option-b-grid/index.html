@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maven — The Irreplaceable Skills of 2026</title>
+  <title>Maven — The Maven Skills Index</title>
   <link rel="preload" href="../fonts/STKBureauSerif-Light.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/STKBureauSans-Book.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/STKBureauSans-Medium.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../shared/styles.css">
   <style>
-    body { overflow-x: hidden; }
+    body { overflow-x: hidden; position: relative; }
 
     /* === BACKGROUND (constrained to container) === */
     .grid-bg {
-      position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+      position: absolute; top: 0; left: 0; right: 0; height: 900px;
       max-width: 1440px; margin: 0 auto;
       z-index: 0; pointer-events: none; overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     }
     .grid-bg .grid-pattern {
       background-image:
@@ -26,8 +28,8 @@
       opacity: 1;
     }
     .grid-glow {
-      position: absolute; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1408 939' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cg transform='matrix(7.2013e-15 78.432 -117.61 -1.3309e-14 704 29.968)'%3E%3Crect height='113.74' width='119.34' fill='url(%23grad)' id='quad' shape-rendering='crispEdges'/%3E%3Cuse href='%23quad' transform='scale(1 -1)'/%3E%3Cuse href='%23quad' transform='scale(-1 1)'/%3E%3Cuse href='%23quad' transform='scale(-1 -1)'/%3E%3C/g%3E%3Cdefs%3E%3ClinearGradient id='grad' gradientUnits='userSpaceOnUse' x2='5' y2='5'%3E%3Cstop stop-color='%23333a5a' stop-opacity='0' offset='0'/%3E%3Cstop stop-color='%231e2341' stop-opacity='0.5' offset='0.4'/%3E%3Cstop stop-color='%23080c28' stop-opacity='1' offset='0.8'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+      position: absolute; top: 0; left: 0; right: 0; height: 100vh;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1408 939' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cg transform='matrix(7.2013e-15 78.432 -117.61 -1.3309e-14 704 29.968)'%3E%3Crect height='113.74' width='119.34' fill='url(%23grad)' id='quad' shape-rendering='crispEdges'/%3E%3Cuse href='%23quad' transform='scale(1 -1)'/%3E%3Cuse href='%23quad' transform='scale(-1 1)'/%3E%3Cuse href='%23quad' transform='scale(-1 -1)'/%3E%3C/g%3E%3Cdefs%3E%3ClinearGradient id='grad' gradientUnits='userSpaceOnUse' x2='5' y2='5'%3E%3Cstop stop-color='%23333a5a' stop-opacity='0' offset='0'/%3E%3Cstop stop-color='%232d3350' stop-opacity='0.02' offset='0.15'/%3E%3Cstop stop-color='%23282d48' stop-opacity='0.06' offset='0.25'/%3E%3Cstop stop-color='%23232740' stop-opacity='0.15' offset='0.35'/%3E%3Cstop stop-color='%231e2341' stop-opacity='0.30' offset='0.45'/%3E%3Cstop stop-color='%23181d38' stop-opacity='0.50' offset='0.55'/%3E%3Cstop stop-color='%23121730' stop-opacity='0.70' offset='0.65'/%3E%3Cstop stop-color='%230c1129' stop-opacity='0.85' offset='0.75'/%3E%3Cstop stop-color='%23080c28' stop-opacity='0.95' offset='0.85'/%3E%3Cstop stop-color='%23080c28' stop-opacity='1' offset='0.95'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
       background-size: 100% 100%;
     }
 
@@ -81,7 +83,7 @@
     .page-content {
       position: relative; z-index: 1;
       display: flex; flex-direction: column;
-      gap: 75px; padding: 40px 0;
+      gap: 120px; padding: 40px 0;
     }
 
     /* === HERO === */
@@ -252,7 +254,7 @@
     /* === REPORT === */
     .report-section {
       padding: 0 32px; margin-top: 0;
-      display: flex; flex-direction: column; gap: 8px;
+      display: flex; flex-direction: column; gap: 12px;
     }
     .report-label {
       font-family: var(--font-sans); font-weight: 500; font-size: 14px;
@@ -260,24 +262,122 @@
       color: #f7fbff; text-align: center;
       font-feature-settings: 'ss01' 1;
     }
-    .report-card {
+    .bento-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .bento-card {
       background: #ECEFF5;
       border: 1px solid #D1D5DE;
-      border-radius: 8px; padding: 32px;
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 24px; position: relative; overflow: hidden;
+      border-radius: 8px; padding: 24px;
+      position: relative; overflow: hidden;
+      height: 320px;
     }
-    .report-card::after {
+    .bento-card::after {
       content: ''; position: absolute;
-      left: 0; right: 0; bottom: 0; height: 55%;
+      left: 0; right: 0; bottom: 0; height: 50%;
       background: linear-gradient(to bottom, transparent 0%, #ECEFF5 100%);
       pointer-events: none; z-index: 2;
     }
-    .chart-col { min-height: 320px; }
-    .chart-col__title {
+    .bento-card__label {
       font-family: var(--font-sans); font-weight: 500; font-size: 10px;
       letter-spacing: 2px; text-transform: uppercase;
-      color: rgba(0,0,0,0.4); margin-bottom: 20px;
+      color: rgba(0,0,0,0.4); margin-bottom: 12px;
+    }
+    .bento-card__title {
+      font-family: var(--font-serif); font-weight: 300;
+      font-size: 20px; line-height: 24px; color: #1a1a2e;
+      letter-spacing: -0.3px;
+      font-feature-settings: 'ss01' 1;
+      margin-bottom: 4px;
+    }
+    .bento-card__subtitle {
+      font-family: var(--font-sans); font-weight: 400;
+      font-size: 13px; line-height: 18px;
+      color: rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+    }
+    .report-headline {
+      font-family: var(--font-serif); font-weight: 300;
+      font-size: 24px; line-height: 32px; letter-spacing: -0.3px;
+      color: var(--lapis-25); text-align: center;
+      font-feature-settings: 'ss01' 1; text-wrap: balance;
+    }
+    .report-credibility {
+      font-family: var(--font-sans); font-weight: 400;
+      font-size: 13px; line-height: 16px;
+      color: rgba(247, 251, 255, 0.4); text-align: center;
+      letter-spacing: 0.2px;
+    }
+
+    /* === LEARNING PATH === */
+    .path-section {
+      padding: 80px 32px 60px;
+      display: flex; flex-direction: column; align-items: center; gap: 32px;
+    }
+    .path-label {
+      font-family: var(--font-sans); font-weight: 500; font-size: 14px;
+      line-height: 16px; letter-spacing: 0.56px; text-transform: uppercase;
+      color: #f7fbff; text-align: center;
+      font-feature-settings: 'ss01' 1;
+    }
+    .path-headline {
+      font-family: var(--font-serif); font-weight: 300;
+      font-size: 32px; line-height: 40px; letter-spacing: -0.5px;
+      color: #fff; text-align: center;
+      font-feature-settings: 'ss01' 1; text-wrap: balance;
+    }
+    .path-stats {
+      display: flex; align-items: flex-start; justify-content: center;
+      gap: 48px; width: 100%; max-width: 700px;
+    }
+    .path-stat {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 4px;
+    }
+    .path-stat__number {
+      font-family: var(--font-serif); font-weight: 300;
+      font-size: 56px; line-height: 1; letter-spacing: -1px;
+      color: #fff;
+      font-feature-settings: 'ss01' 1;
+    }
+    .path-stat__name {
+      font-family: var(--font-sans); font-weight: 600;
+      font-size: 14px; line-height: 20px; letter-spacing: 1px;
+      text-transform: uppercase; color: #fff;
+      margin-top: 4px;
+    }
+    .path-stat__desc {
+      font-family: var(--font-sans); font-weight: 400;
+      font-size: 14px; line-height: 20px;
+      color: rgba(247, 251, 255, 0.55);
+      max-width: 260px; margin-top: 8px;
+    }
+    .path-stat__divider {
+      width: 1px; height: 120px; align-self: center;
+      background: var(--lapis-accent-300);
+    }
+
+    /* === FOOTER STATEMENT === */
+    .footer-statement {
+      padding: 0 32px 100px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .footer-statement__rule {
+      border: none; border-top: 1px solid var(--lapis-accent-300);
+      width: 100%; margin: 0 0 60px;
+    }
+    .footer-statement__headline {
+      font-family: var(--font-serif); font-weight: 300;
+      font-size: 48px; line-height: 1.1; letter-spacing: -1px;
+      color: #fff; text-align: center;
+      font-feature-settings: 'ss01' 1;
+    }
+    .footer-statement__subtitle {
+      font-family: var(--font-sans); font-weight: 400;
+      font-size: 18px; line-height: 28px;
+      color: rgba(247, 251, 255, 0.6); text-align: center;
+      max-width: 520px; text-wrap: balance;
     }
 
     /* === RACE CHART === */
@@ -299,7 +399,7 @@
     .sunburst-wrap {
       display: flex; flex-direction: column; align-items: center;
     }
-    #sunburstCanvas { cursor: default; }
+    #sunburstCanvas { pointer-events: none; }
 
     /* === HEATMAP === */
     .heatmap-header {
@@ -324,7 +424,7 @@
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .heatmap-cell {
-      height: 28px; border-radius: 3px;
+      height: 36px; border-radius: 3px;
       transition: background-color 0.6s ease;
     }
 
@@ -372,8 +472,8 @@
     <div class="page-content">
       <section class="hero">
         <div class="hero-text">
-          <h1 class="hero-headline">The irreplaceable skills of 2026</h1>
-          <p class="hero-subtitle">Get a personalized report on the skills that count for your role, and meet the practitioners who teach them.</p>
+          <h1 class="hero-headline">The Maven Skills Index</h1>
+          <p class="hero-subtitle">Everything's changing. Not everything's worth learning. Find out what matters for your role in 2026.</p>
         </div>
         <form class="hero-cta" onsubmit="return false;">
           <input type="email" class="hero-cta__input" placeholder="Enter your email" autocomplete="email" spellcheck="false">
@@ -393,23 +493,59 @@
 
       <section class="report-section">
       <p class="report-label">Your personalized report</p>
-      <div class="report-card">
-        <div class="chart-col">
-          <div class="chart-col__title" id="raceTitle">The Skills Race</div>
+      <p class="report-headline">See what's rising, what's fading, and where you stand.</p>
+      <p class="report-credibility">Based on data from 500,000+ Maven students</p>
+      <div class="bento-grid">
+        <div class="bento-card">
+          <div class="bento-card__label">The Skill Race</div>
+          <h3 class="bento-card__title">How every profession is shifting</h3>
+          <p class="bento-card__subtitle">Watch skills rise and fall over 3 years.</p>
           <div class="race-bars" id="raceBars"></div>
         </div>
-        <div class="chart-col">
-          <div class="chart-col__title" id="sunburstTitle">The Skill Map</div>
+        <div class="bento-card">
+          <div class="bento-card__label">The Skill Map</div>
+          <h3 class="bento-card__title">The detailed landscape of your role</h3>
+          <p class="bento-card__subtitle">Foundation skills meet AI-era skills.</p>
           <div class="sunburst-wrap">
             <canvas id="sunburstCanvas"></canvas>
           </div>
         </div>
-        <div class="chart-col">
-          <div class="chart-col__title">Skills &times; Seniority</div>
+        <div class="bento-card">
+          <div class="bento-card__label">Skills &times; Seniority</div>
+          <h3 class="bento-card__title">Focus by your level</h3>
+          <p class="bento-card__subtitle">What matters changes with seniority.</p>
           <div id="heatmap"></div>
         </div>
       </div>
     </section>
+
+      <section class="path-section">
+        <p class="path-label">Your learning path</p>
+        <p class="path-headline">The skills. The experts. The plan.<br>All in one place.</p>
+        <div class="path-stats">
+          <div class="path-stat">
+            <span class="path-stat__number">150+</span>
+            <span class="path-stat__name">Expert Courses</span>
+            <p class="path-stat__desc">Deep-dive programs by the practitioners who shaped the field</p>
+          </div>
+          <div class="path-stat__divider" aria-hidden="true"></div>
+          <div class="path-stat">
+            <span class="path-stat__number">500+</span>
+            <span class="path-stat__name">Lightning Lessons</span>
+            <p class="path-stat__desc">Free 60-minute live sessions with hands-on skills you can use today</p>
+          </div>
+        </div>
+        <form class="hero-cta" style="align-self: center;" onsubmit="return false;">
+          <input type="email" class="hero-cta__input" placeholder="Enter your email" autocomplete="email" spellcheck="false">
+          <button type="submit" class="hero-cta__btn">Get your learning plan</button>
+        </form>
+      </section>
+
+      <section class="footer-statement">
+        <hr class="footer-statement__rule" aria-hidden="true">
+        <h2 class="footer-statement__headline">Keep moving.</h2>
+        <p class="footer-statement__subtitle">The skills are shifting. The contributors who stay ahead are the ones who never stop learning. Your personalized report is ready&nbsp;&mdash; the skills, the experts, the path.</p>
+      </section>
     </div>
   </div>
 
@@ -827,16 +963,14 @@
     // STATE
     // =============================================
     let activeIndex = 0;
+    const REPORT_INDEX = 0;
     let rotationTimer = null;
     let pauseTimer = null;
     const ROTATION_MS = 6000;
     const PAUSE_MS = 10000;
 
     let sbCanvas, sbCtx, sbW, sbH, sbCx, sbCy;
-    let sbAnim = { r1: 0, r2: 0 };
-    let sbTarget = { r1: 1, r2: 1 };
-    let sbHover = null;
-    let sbAreas = [];
+    let sbAnim = { r1: 1, r2: 1 };
 
     // =============================================
     // PILLS
@@ -1045,7 +1179,7 @@
     // RACE CHART
     // =============================================
     function renderRaceChart() {
-      const data = ROLE_DATA[ROLES[activeIndex].key].race;
+      const data = ROLE_DATA[ROLES[REPORT_INDEX].key].race;
       const el = document.getElementById('raceBars');
       el.innerHTML = data.map(d =>
         `<div class="race-row">
@@ -1060,7 +1194,6 @@
           el.querySelectorAll('.race-bar').forEach(b => { b.style.width = b.dataset.w + '%'; });
         });
       });
-      document.getElementById('raceTitle').textContent = 'The Skills Race \u2014 ' + ROLES[activeIndex].label;
     }
 
     // =============================================
@@ -1070,16 +1203,13 @@
       sbCanvas = document.getElementById('sunburstCanvas');
       sbCtx = sbCanvas.getContext('2d');
       resizeSunburst();
-      sbCanvas.addEventListener('mousemove', handleSbMove);
-      sbCanvas.addEventListener('mouseleave', () => { sbHover = null; sbCanvas.style.cursor = 'default'; });
       window.addEventListener('resize', () => { resizeSunburst(); });
-      sbTarget.r1 = 1; sbTarget.r2 = 1;
-      sbTick();
+      drawSunburst();
     }
 
     function resizeSunburst() {
       const wrap = sbCanvas.parentElement;
-      const s = Math.min(wrap.offsetWidth - 8, 380);
+      const s = Math.min(wrap.offsetWidth - 8, 360);
       const dpr = window.devicePixelRatio || 1;
       sbCanvas.width = s * dpr; sbCanvas.height = s * dpr;
       sbCanvas.style.width = s + 'px'; sbCanvas.style.height = s + 'px';
@@ -1089,10 +1219,9 @@
 
     function drawSunburst() {
       if (!sbW) return;
-      const data = ROLE_DATA[ROLES[activeIndex].key].skillMap;
+      const data = ROLE_DATA[ROLES[REPORT_INDEX].key].skillMap;
       const ctx = sbCtx;
       ctx.clearRect(0, 0, sbW, sbH);
-      sbAreas.length = 0;
 
       const cx = sbCx, cy = sbCy;
       const r0 = sbW * 0.14;
@@ -1110,7 +1239,7 @@
       const fs = sbW * 0.035;
       ctx.font = '600 ' + fs + 'px "STK Bureau Sans", sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      const cLines = ROLES[activeIndex].center.split('\n');
+      const cLines = ROLES[REPORT_INDEX].center.split('\n');
       const lh = fs * 1.3;
       cLines.forEach((ln, i) => ctx.fillText(ln, cx, cy + (i - (cLines.length - 1) / 2) * lh));
 
@@ -1124,16 +1253,13 @@
         if (eA > sA) {
           const hasAI = seg.aiChildren && seg.aiChildren.length > 0;
           const oR = hasAI ? r1o : r2o;
-          const hov = sbHover === seg.id;
 
           ctx.beginPath(); ctx.arc(cx, cy, r1i, sA, eA); ctx.arc(cx, cy, oR, eA, sA, true); ctx.closePath();
-          ctx.fillStyle = seg.color; ctx.globalAlpha = hov ? 1 : 0.85; ctx.fill();
-          if (hov) { ctx.strokeStyle = '#080C28'; ctx.lineWidth = 2; ctx.stroke(); }
+          ctx.fillStyle = seg.color; ctx.globalAlpha = 0.85; ctx.fill();
           ctx.globalAlpha = 1;
-          sbAreas.push({ sA, eA, iR: r1i, oR, id: seg.id });
 
           if ((eA - sA) > 0.2 && sbAnim.r1 > 0.4)
-            drawSbLabel((sA + eA) / 2, (r1i + oR) / 2, seg.label, '#ECEFF5', sbW * 0.018, hov);
+            drawSbLabel((sA + eA) / 2, (r1i + oR) / 2, seg.label, '#ECEFF5', sbW * 0.018, false);
 
           if (sbAnim.r2 > 0.01 && hasAI) {
             let cA = angle + gap;
@@ -1141,14 +1267,11 @@
               const cSegA = (ch.span / totalSpan) * Math.PI * 2 * sbAnim.r1;
               const csA = cA + gap, ceA = cA + cSegA - gap;
               if (ceA > csA) {
-                const chHov = sbHover === ch.id;
                 ctx.beginPath(); ctx.arc(cx, cy, r2i, csA, ceA); ctx.arc(cx, cy, r2o, ceA, csA, true); ctx.closePath();
-                ctx.fillStyle = '#D1D5DE'; ctx.globalAlpha = sbAnim.r2 * (chHov ? 1 : 0.88); ctx.fill();
-                if (chHov) { ctx.globalAlpha = 1; ctx.strokeStyle = '#080C28'; ctx.lineWidth = 2; ctx.stroke(); }
+                ctx.fillStyle = '#D1D5DE'; ctx.globalAlpha = sbAnim.r2 * 0.88; ctx.fill();
                 ctx.globalAlpha = 1;
-                sbAreas.push({ sA: csA, eA: ceA, iR: r2i, oR: r2o, id: ch.id });
                 if ((ceA - csA) > 0.15 && sbAnim.r2 > 0.4)
-                  drawSbLabel((csA + ceA) / 2, (r2i + r2o) / 2, ch.label, '#1a1a2e', sbW * 0.016, chHov);
+                  drawSbLabel((csA + ceA) / 2, (r2i + r2o) / 2, ch.label, '#1a1a2e', sbW * 0.016, false);
               }
               cA += cSegA;
             });
@@ -1156,8 +1279,6 @@
         }
         angle += segA;
       });
-
-      document.getElementById('sunburstTitle').textContent = 'The Skill Map \u2014 ' + ROLES[activeIndex].label;
     }
 
     function drawSbLabel(midA, labelR, text, color, fontSize, hl) {
@@ -1177,35 +1298,7 @@
       ctx.restore();
     }
 
-    function handleSbMove(e) {
-      const rect = sbCanvas.getBoundingClientRect();
-      const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-      const dx = mx - sbCx, dy = my - sbCy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const ang = Math.atan2(dy, dx);
-      let found = null;
-      for (let i = sbAreas.length - 1; i >= 0; i--) {
-        const s = sbAreas[i];
-        if (dist >= s.iR && dist <= s.oR) {
-          let a = ((ang % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-          let sa = ((s.sA % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-          let ea = ((s.eA % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-          if (sa <= ea ? (a >= sa && a <= ea) : (a >= sa || a <= ea)) { found = s; break; }
-        }
-      }
-      const nid = found ? found.id : null;
-      if (nid !== sbHover) { sbHover = nid; sbCanvas.style.cursor = found ? 'pointer' : 'default'; }
-    }
 
-    function sbTick() {
-      const sp = 0.07;
-      sbAnim.r1 += (sbTarget.r1 - sbAnim.r1) * sp;
-      sbAnim.r2 += (sbTarget.r2 - sbAnim.r2) * sp;
-      if (Math.abs(sbAnim.r1 - sbTarget.r1) < 0.003) sbAnim.r1 = sbTarget.r1;
-      if (Math.abs(sbAnim.r2 - sbTarget.r2) < 0.003) sbAnim.r2 = sbTarget.r2;
-      drawSunburst();
-      requestAnimationFrame(sbTick);
-    }
 
     // =============================================
     // HEATMAP
@@ -1219,7 +1312,7 @@
     }
 
     function renderHeatmap() {
-      const d = ROLE_DATA[ROLES[activeIndex].key].seniority;
+      const d = ROLE_DATA[ROLES[REPORT_INDEX].key].seniority;
       let h = '<div class="heatmap-header"><span></span>';
       d.levels.forEach(l => { h += '<span>' + l + '</span>'; });
       h += '</div>';
@@ -1243,10 +1336,6 @@
       activeIndex = idx;
 
       updatePills();
-      renderRaceChart();
-      renderHeatmap();
-      sbAnim.r1 = 0; sbAnim.r2 = 0;
-      sbTarget.r1 = 1; sbTarget.r2 = 1;
 
       const experts = ROLE_DATA[ROLES[activeIndex].key].experts;
 
