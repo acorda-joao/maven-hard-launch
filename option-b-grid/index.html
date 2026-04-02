@@ -135,7 +135,7 @@
 
     /* === MASTERS SECTION === */
     .masters-section {
-      padding: 0 32px; overflow: hidden;
+      padding: 0 32px;
       display: flex; flex-direction: column; gap: 24px;
     }
     .masters-header {
@@ -183,21 +183,39 @@
       }
     }
 
-    /* === EXPERT CARDS === */
-    .experts-grid {
-      display: flex; gap: 16px;
-      transition: opacity 0.3s;
+    /* === CAROUSEL === */
+    .carousel-viewport {
+      width: calc(100% + 64px);
+      margin-left: -32px;
+      overflow: hidden;
+      position: relative;
     }
-    .expert-card {
-      position: relative; width: 224px; height: 300px;
-      flex-shrink: 0; overflow: hidden;
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      will-change: transform;
+    }
+    .carousel-card {
+      position: relative; flex-shrink: 0;
+      width: 160px; aspect-ratio: 3 / 4;
+      overflow: hidden;
       border: 1px solid var(--lapis-accent-300);
     }
-    .expert-card__img {
-      width: 100%; height: 100%; object-fit: cover;
-      display: block;
+    @media (min-width: 640px)  { .carousel-card { width: 192px; } }
+    @media (min-width: 1024px) { .carousel-card { width: 200px; } }
+    @media (min-width: 1440px) { .carousel-card { width: 208px; } }
+    .carousel-card__image {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center top;
+      z-index: 1;
     }
-    .expert-card__gradient {
+    .carousel-card__tiles {
+      position: absolute; inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .carousel-card__gradient {
       position: absolute; inset: 0;
       background: linear-gradient(to bottom,
         transparent 55%,
@@ -206,22 +224,29 @@
         rgba(8,12,40,0.7) 85%
       );
       user-select: none;
+      z-index: 2;
     }
-    .expert-card__info {
+    .carousel-card__info {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 8px;
       display: flex; flex-direction: column; gap: 5px;
       color: #fff;
+      z-index: 4;
     }
-    .expert-card__name {
+    .carousel-card__name {
       font-family: var(--font-serif); font-weight: 400;
       font-size: 16px; line-height: 20px; letter-spacing: -0.48px;
       font-feature-settings: 'ss01' 1;
     }
-    .expert-card__bio {
+    .carousel-card__bio {
       font-family: var(--font-sans); font-weight: 400;
       font-size: 14px; line-height: 18px;
       font-feature-settings: 'ss01' 1;
+    }
+
+    @keyframes carousel-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(var(--scroll-distance)); }
     }
 
     /* === REPORT === */
@@ -323,7 +348,9 @@
     @media (prefers-reduced-motion: reduce) {
       .pill-lg { transition: none; }
       .hero-cta__btn { transition: none; }
-      .experts-grid { transition: none; }
+      .carousel-track { animation: none !important; transition: none; }
+      .carousel-card__tiles div { transition: none !important; }
+      .carousel-card__info { transition: none !important; }
       .race-bar { transition: none; }
       .heatmap-cell { transition: none; }
     }
@@ -359,7 +386,9 @@
           <p class="masters-label">Humans who have mastered this skills</p>
           <div class="pills-row" id="pillsRow"></div>
         </div>
-        <div class="experts-grid" id="expertsGrid"></div>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="carouselTrack"></div>
+        </div>
       </section>
 
       <section class="report-section">
@@ -832,20 +861,184 @@
     }
 
     // =============================================
-    // EXPERTS
+    // CAROUSEL
     // =============================================
-    function renderExperts() {
-      const data = ROLE_DATA[ROLES[activeIndex].key].experts;
-      document.getElementById('expertsGrid').innerHTML = data.map(e =>
-        `<div class="expert-card">
-          <img class="expert-card__img" src="../images/${e.img}" alt="${e.name}">
-          <div class="expert-card__gradient"></div>
-          <div class="expert-card__info">
-            <span class="expert-card__name">${e.name}</span>
-            <span class="expert-card__bio">${e.bio || e.skill}</span>
-          </div>
-        </div>`
-      ).join('');
+    const CARD_W = 200;
+    const CARD_H = 267;
+    const CARD_GAP = 20;
+    const SCROLL_SPEED = 40;
+    let carouselCards = [];
+    const imageDimCache = new Map();
+
+    function buildCarousel() {
+      const track = document.getElementById('carouselTrack');
+      const experts = ROLE_DATA[ROLES[activeIndex].key].experts;
+      track.innerHTML = '';
+      carouselCards = [];
+
+      for (let set = 0; set < 2; set++) {
+        experts.forEach((e, i) => {
+          const card = document.createElement('div');
+          card.className = 'carousel-card';
+          card.dataset.index = i;
+          card.dataset.set = set;
+          card.innerHTML =
+            `<div class="carousel-card__image" style="background-image: url('../images/${e.img}')"></div>` +
+            `<div class="carousel-card__tiles"></div>` +
+            `<div class="carousel-card__gradient" aria-hidden="true"></div>` +
+            `<div class="carousel-card__info">` +
+              `<span class="carousel-card__name">${e.name}</span>` +
+              `<span class="carousel-card__bio">${e.bio || e.skill}</span>` +
+            `</div>`;
+          track.appendChild(card);
+          carouselCards.push(card);
+
+          if (!imageDimCache.has(e.img)) {
+            const img = new Image();
+            img.onload = () => imageDimCache.set(e.img, { w: img.naturalWidth, h: img.naturalHeight });
+            img.src = `../images/${e.img}`;
+          }
+        });
+      }
+
+      startScrollAnimation(track, experts.length);
+    }
+
+    function startScrollAnimation(track, cardCount) {
+      const cardWidth = carouselCards[0] ? carouselCards[0].getBoundingClientRect().width : CARD_W;
+      const singleSetWidth = cardCount * (cardWidth + CARD_GAP);
+      const duration = singleSetWidth / SCROLL_SPEED;
+      track.style.setProperty('--scroll-distance', `-${singleSetWidth}px`);
+      if (!prefersReducedMotion) {
+        track.style.animation = 'none';
+        track.offsetHeight;
+        track.style.animation = `carousel-scroll ${duration}s linear infinite`;
+      }
+    }
+
+    // =============================================
+    // TILE DISSOLVE
+    // =============================================
+    const TILE_COLS = 8;
+    const TILE_ROWS = 10;
+    const TILE_FADE_DURATION = 350;
+    const TILE_STAGGER_TOTAL = 800;
+    let isTransitioning = false;
+
+    function getRandomDelays(count) {
+      const delays = Array.from({ length: count }, (_, i) => i);
+      for (let i = delays.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [delays[i], delays[j]] = [delays[j], delays[i]];
+      }
+      return delays;
+    }
+
+    function getImageDims(filename) {
+      const cached = imageDimCache.get(filename);
+      if (cached) return Promise.resolve(cached);
+
+      const probe = new Image();
+      probe.src = `../images/${filename}`;
+      if (probe.naturalWidth && probe.naturalHeight) {
+        const dims = { w: probe.naturalWidth, h: probe.naturalHeight };
+        imageDimCache.set(filename, dims);
+        return Promise.resolve(dims);
+      }
+
+      return new Promise(resolve => {
+        probe.onload = () => {
+          const dims = { w: probe.naturalWidth, h: probe.naturalHeight };
+          imageDimCache.set(filename, dims);
+          resolve(dims);
+        };
+        probe.onerror = () => resolve(null);
+      });
+    }
+
+    async function createTileOverlay(card, oldImageUrl, imgFilename) {
+      const tilesContainer = card.querySelector('.carousel-card__tiles');
+      tilesContainer.innerHTML = '';
+
+      const cardW = card.clientWidth;
+      const cardH = card.clientHeight;
+      const tileW = cardW / TILE_COLS;
+      const tileH = cardH / TILE_ROWS;
+      const totalTiles = TILE_COLS * TILE_ROWS;
+      const delays = getRandomDelays(totalTiles);
+
+      const key = imgFilename || oldImageUrl.split('/').pop();
+      const dims = await getImageDims(key);
+      const natW = dims ? dims.w : cardW;
+      const natH = dims ? dims.h : cardH;
+      const scale = Math.max(cardW / natW, cardH / natH);
+      const bgW = natW * scale;
+      const bgH = natH * scale;
+      const offsetX = (cardW - bgW) / 2;
+      const offsetY = 0;
+
+      for (let row = 0; row < TILE_ROWS; row++) {
+        for (let col = 0; col < TILE_COLS; col++) {
+          const tile = document.createElement('div');
+          const flatIndex = row * TILE_COLS + col;
+          const delay = (delays[flatIndex] / totalTiles) * TILE_STAGGER_TOTAL;
+
+          Object.assign(tile.style, {
+            position: 'absolute',
+            left: `${col * tileW}px`,
+            top: `${row * tileH}px`,
+            width: `${tileW + 1}px`,
+            height: `${tileH + 1}px`,
+            backgroundImage: `url('${oldImageUrl}')`,
+            backgroundSize: `${bgW}px ${bgH}px`,
+            backgroundPosition: `${offsetX - col * tileW}px ${offsetY - row * tileH}px`,
+            opacity: '1',
+            transition: `opacity ${TILE_FADE_DURATION}ms ease`,
+            transitionDelay: `${delay}ms`,
+          });
+
+          tilesContainer.appendChild(tile);
+        }
+      }
+      return tilesContainer;
+    }
+
+    async function dissolveCard(card, newExpert, oldImgFilename) {
+      const imgEl = card.querySelector('.carousel-card__image');
+      const nameEl = card.querySelector('.carousel-card__name');
+      const bioEl = card.querySelector('.carousel-card__bio');
+      const infoEl = card.querySelector('.carousel-card__info');
+
+      const currentBg = imgEl.style.backgroundImage;
+      const currentImageUrl = currentBg.slice(5, -2);
+
+      const tilesContainer = await createTileOverlay(card, currentImageUrl, oldImgFilename);
+
+      imgEl.style.backgroundImage = `url('../images/${newExpert.img}')`;
+
+      infoEl.style.transition = `opacity ${TILE_FADE_DURATION}ms ease`;
+      infoEl.style.opacity = '0';
+
+      setTimeout(() => {
+        nameEl.textContent = newExpert.name;
+        bioEl.textContent = newExpert.bio || newExpert.skill;
+        infoEl.style.opacity = '1';
+      }, TILE_FADE_DURATION);
+
+      return new Promise(resolve => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            tilesContainer.querySelectorAll('div').forEach(tile => {
+              tile.style.opacity = '0';
+            });
+
+            setTimeout(() => {
+              tilesContainer.innerHTML = '';
+              resolve();
+            }, TILE_STAGGER_TOTAL + TILE_FADE_DURATION + 50);
+          });
+        });
+      });
     }
 
     // =============================================
@@ -1043,20 +1236,40 @@
     // =============================================
     // ROLE SWITCHING
     // =============================================
-    function setActiveRole(idx) {
-      if (idx === activeIndex) return;
-      const grid = document.getElementById('expertsGrid');
-      grid.style.opacity = '0';
-      setTimeout(() => {
-        activeIndex = idx;
-        updatePills();
-        renderExperts();
-        renderRaceChart();
-        renderHeatmap();
-        sbAnim.r1 = 0; sbAnim.r2 = 0;
-        sbTarget.r1 = 1; sbTarget.r2 = 1;
-        grid.style.opacity = '1';
-      }, 300);
+    async function setActiveRole(idx) {
+      if (idx === activeIndex || isTransitioning) return;
+      isTransitioning = true;
+      const prevExperts = ROLE_DATA[ROLES[activeIndex].key].experts;
+      activeIndex = idx;
+
+      updatePills();
+      renderRaceChart();
+      renderHeatmap();
+      sbAnim.r1 = 0; sbAnim.r2 = 0;
+      sbTarget.r1 = 1; sbTarget.r2 = 1;
+
+      const experts = ROLE_DATA[ROLES[activeIndex].key].experts;
+
+      if (prefersReducedMotion) {
+        carouselCards.forEach(card => {
+          const i = parseInt(card.dataset.index);
+          const imgEl = card.querySelector('.carousel-card__image');
+          const nameEl = card.querySelector('.carousel-card__name');
+          const bioEl = card.querySelector('.carousel-card__bio');
+          imgEl.style.backgroundImage = `url('../images/${experts[i].img}')`;
+          nameEl.textContent = experts[i].name;
+          bioEl.textContent = experts[i].bio || experts[i].skill;
+        });
+      } else {
+        const promises = carouselCards.map(card => {
+          const i = parseInt(card.dataset.index);
+          return dissolveCard(card, experts[i], prevExperts[i].img);
+        });
+        await Promise.all(promises);
+      }
+
+      preloadNextCategory();
+      isTransitioning = false;
     }
 
     // =============================================
@@ -1078,18 +1291,50 @@
     }
 
     // =============================================
+    // IMAGE PRELOADING
+    // =============================================
+    function preloadNextCategory() {
+      const nextIdx = (activeIndex + 1) % ROLES.length;
+      ROLE_DATA[ROLES[nextIdx].key].experts.forEach(e => {
+        if (!imageDimCache.has(e.img)) {
+          const img = new Image();
+          img.onload = () => imageDimCache.set(e.img, { w: img.naturalWidth, h: img.naturalHeight });
+          img.src = `../images/${e.img}`;
+        }
+      });
+    }
+
+    // =============================================
+    // RESIZE HANDLER
+    // =============================================
+    let resizeTimer;
+    function handleResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const track = document.getElementById('carouselTrack');
+        const experts = ROLE_DATA[ROLES[activeIndex].key].experts;
+        if (track && carouselCards.length) {
+          startScrollAnimation(track, experts.length);
+        }
+      }, 200);
+    }
+
+    // =============================================
     // INIT
     // =============================================
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     document.addEventListener('DOMContentLoaded', () => {
       renderPills();
-      renderExperts();
+      buildCarousel();
       renderRaceChart();
       initSunburst();
       renderHeatmap();
       if (!prefersReducedMotion) startRotation();
+      preloadNextCategory();
     });
+
+    window.addEventListener('resize', handleResize);
 
     document.addEventListener('visibilitychange', () => {
       if (prefersReducedMotion) return;
