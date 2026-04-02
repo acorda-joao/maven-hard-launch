@@ -83,7 +83,7 @@
     .page-content {
       position: relative; z-index: 1;
       display: flex; flex-direction: column;
-      gap: 120px; padding: 40px 0;
+      gap: 64px; padding: 40px 0;
     }
 
     /* === HERO === */
@@ -137,7 +137,7 @@
 
     /* === MASTERS SECTION === */
     .masters-section {
-      padding: 0 32px;
+      padding: 48px 32px 24px;
       display: flex; flex-direction: column; gap: 24px;
     }
     .masters-header {
@@ -191,6 +191,7 @@
       margin-left: -32px;
       overflow: hidden;
       position: relative;
+      z-index: 1;
     }
     .carousel-track {
       display: flex;
@@ -308,6 +309,7 @@
       font-size: 13px; line-height: 16px;
       color: rgba(247, 251, 255, 0.4); text-align: center;
       letter-spacing: 0.2px;
+      margin-top: -24px;
     }
 
     /* === LEARNING PATH === */
@@ -543,6 +545,33 @@
     }
     .footer-social:hover { opacity: 0.8; }
 
+    /* === SECTION FRAMES === */
+    .section-frame {
+      position: relative;
+    }
+    .section-frame__lines {
+      position: absolute; inset: 0;
+      pointer-events: none; user-select: none;
+      z-index: 0;
+    }
+
+    .section-frame--open .section-frame__lines::before,
+    .section-frame--open .section-frame__lines::after {
+      content: ''; position: absolute;
+      left: 50%; transform: translateX(-50%);
+      width: 100vw; height: 1px;
+      background: #333a5a;
+    }
+    .section-frame--open .section-frame__lines::before { top: 0; }
+    .section-frame--open .section-frame__lines::after { bottom: 0; }
+
+    .section-frame--closed .section-frame__lines::before {
+      content: ''; position: absolute;
+      top: 16px; left: 16px; right: 16px; bottom: 16px;
+      border: 1px solid #333a5a;
+      pointer-events: none;
+    }
+
     /* === DECORATIVE ELEMENTS === */
     .grid-bg, .inner-lines, .full-rule::after {
       user-select: none;
@@ -612,14 +641,15 @@
             <div id="heatmap"></div>
           </div>
         </div>
-        <p class="report-credibility">Based on data from 500,000+ Maven students</p>
         <form class="hero-cta" onsubmit="return false;">
           <input type="email" class="hero-cta__input" placeholder="Enter your email" autocomplete="email" spellcheck="false">
           <button type="submit" class="hero-cta__btn">Get your report</button>
         </form>
+        <p class="report-credibility">Based on data from 500,000+ Maven students</p>
       </section>
 
-      <section class="masters-section">
+      <section class="masters-section section-frame section-frame--open">
+        <div class="section-frame__lines" aria-hidden="true"></div>
         <div class="masters-header">
           <h2 class="masters-headline">Meet the humans shaping the index</h2>
           <div class="pills-row" id="pillsRow"></div>
@@ -629,7 +659,8 @@
         </div>
       </section>
 
-      <section class="path-section">
+      <section class="path-section section-frame section-frame--closed">
+        <div class="section-frame__lines" aria-hidden="true"></div>
         <p class="path-label">Learning path</p>
         <p class="path-headline">The skills. The experts. The plan.<br>All in one place.</p>
         <div class="path-stats">
