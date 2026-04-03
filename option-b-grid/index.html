@@ -137,8 +137,9 @@
 
     /* === MASTERS SECTION === */
     .masters-section {
-      padding: 48px 32px 24px;
+      padding: 48px 32px;
       display: flex; flex-direction: column; gap: 24px;
+      background: var(--lapis-accent-700);
     }
     .masters-header {
       display: flex; flex-direction: column; gap: 16px;
@@ -222,9 +223,9 @@
       position: absolute; inset: 0;
       background: linear-gradient(to bottom,
         transparent 55%,
-        rgba(8,12,40,0.15) 65%,
-        rgba(8,12,40,0.4) 75%,
-        rgba(8,12,40,0.7) 85%
+        rgba(16,21,49,0.15) 65%,
+        rgba(16,21,49,0.4) 75%,
+        rgba(16,21,49,0.7) 85%
       );
       user-select: none;
       z-index: 2;
@@ -314,8 +315,9 @@
 
     /* === LEARNING PATH === */
     .path-section {
-      padding: 80px 32px 60px;
+      padding: 80px 32px;
       display: flex; flex-direction: column; align-items: center; gap: 32px;
+      background: var(--lapis-accent-700);
     }
     .path-label {
       font-family: var(--font-sans); font-weight: 500; font-size: 14px;
@@ -790,11 +792,11 @@
       .pills-row .pill-lg { flex-shrink: 0; }
 
       /* Masters */
-      .masters-section { padding: 32px 24px 24px; }
+      .masters-section { padding: 32px 24px; }
       .masters-headline { font-size: 28px; line-height: 36px; }
 
       /* Path */
-      .path-section { padding: 60px 24px 48px; }
+      .path-section { padding: 60px 24px; }
       .path-headline { font-size: 28px; line-height: 36px; }
       .path-stats { gap: 32px; }
       .path-stat__number { font-size: 44px; }
@@ -863,7 +865,7 @@
       .masters-headline { font-size: 24px; line-height: 32px; }
 
       /* Path: stack stats */
-      .path-section { padding: 48px 20px 40px; gap: 24px; }
+      .path-section { padding: 48px 20px; gap: 24px; }
       .path-headline { font-size: 24px; line-height: 32px; }
       .path-stats {
         flex-direction: column;
@@ -968,7 +970,7 @@
         </div>
       </section>
 
-      <section class="path-section section-frame section-frame--closed">
+      <section class="path-section section-frame section-frame--open">
         <div class="section-frame__lines" aria-hidden="true"></div>
         <p class="path-label">Learning path</p>
         <p class="path-headline">The skills. The experts. The plan.<br>All in one place.</p>
