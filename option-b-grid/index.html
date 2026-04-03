@@ -577,6 +577,52 @@
       user-select: none;
     }
 
+    /* === HERO ENTRANCE === */
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroCardFadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes navDropIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .nav {
+      opacity: 0;
+      animation: navDropIn 400ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+    .hero-headline {
+      opacity: 0;
+      animation: heroFadeUp 750ms cubic-bezier(0.23, 1, 0.32, 1) 150ms forwards;
+    }
+    .hero-subtitle {
+      opacity: 0;
+      animation: heroFadeUp 750ms cubic-bezier(0.23, 1, 0.32, 1) 250ms forwards;
+    }
+    .bento-card {
+      opacity: 0;
+      animation: heroCardFadeUp 800ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+    .bento-card:nth-child(1) { animation-delay: 380ms; }
+    .bento-card:nth-child(2) { animation-delay: 480ms; }
+    .bento-card:nth-child(3) { animation-delay: 580ms; }
+    .hero-cta {
+      opacity: 0;
+      animation: heroFadeUp 750ms cubic-bezier(0.23, 1, 0.32, 1) 700ms forwards;
+    }
+    .report-credibility {
+      opacity: 0;
+      animation: heroFadeIn 500ms cubic-bezier(0.23, 1, 0.32, 1) 800ms forwards;
+    }
+
     /* === FOCUS-VISIBLE === */
     .hero-cta__input:focus-visible {
       outline: 2px solid #fff;
@@ -590,6 +636,15 @@
 
     /* === REDUCED MOTION === */
     @media (prefers-reduced-motion: reduce) {
+      .nav,
+      .hero-headline,
+      .hero-subtitle,
+      .bento-card,
+      .hero-cta,
+      .report-credibility {
+        animation: heroFadeIn 200ms ease forwards !important;
+        animation-delay: 0ms !important;
+      }
       .pill-lg { transition: none; }
       .hero-cta__btn { transition: none; }
       .carousel-track { animation: none !important; transition: none; }
@@ -597,6 +652,260 @@
       .carousel-card__info { transition: none !important; }
       .race-bar { transition: none; }
       .heatmap-cell { transition: none; }
+      .sticky-cta { transition: none; }
+      .sticky-cta__label { transition: none; }
+    }
+
+    /* === STICKY CTA BAR (hidden on desktop) === */
+    .sticky-cta {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 100;
+      background: #080c28;
+      border-top: 1px solid var(--lapis-accent-300);
+      padding: 16px 24px 20px;
+      transform: translateY(100%);
+      transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 200ms cubic-bezier(0.23, 1, 0.32, 1);
+      opacity: 0;
+    }
+    .sticky-cta--visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .sticky-cta__form {
+      display: flex; gap: 11px; align-items: center;
+      max-width: 500px; margin: 0 auto;
+    }
+    .sticky-cta__input {
+      background: #fff; border: 1px solid #e5e5e5;
+      border-radius: 8px; height: 44px; padding: 0 14px;
+      font-family: var(--font-sans); font-size: 15px; font-weight: 400;
+      color: #171717; flex: 1; outline: none; min-width: 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+      font-feature-settings: 'ss01' 1; letter-spacing: -0.16px;
+    }
+    .sticky-cta__input::placeholder { color: #737373; }
+    .sticky-cta__input:focus { border-color: var(--lapis-400); }
+    .sticky-cta__input:focus-visible {
+      outline: 2px solid #fff; outline-offset: 2px;
+    }
+    .sticky-cta__btn {
+      background: #fff; border: 1px solid #e5e5e5;
+      border-radius: 8px; height: 44px; padding: 0 18px;
+      font-family: var(--font-sans); font-size: 15px; font-weight: 500;
+      color: #171717; cursor: pointer; white-space: nowrap;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+      font-feature-settings: 'ss01' 1; letter-spacing: -0.32px;
+      transition: background 150ms ease, transform 100ms ease;
+      touch-action: manipulation;
+      position: relative; overflow: hidden;
+    }
+    .sticky-cta__btn:active { transform: scale(0.97); }
+    @media (hover: hover) and (pointer: fine) {
+      .sticky-cta__btn:hover { background: #f5f5f5; }
+    }
+    .sticky-cta__label {
+      display: block;
+      transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 200ms cubic-bezier(0.23, 1, 0.32, 1),
+                  filter 200ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .sticky-cta__label--exit {
+      transform: translateY(-110%);
+      opacity: 0;
+      filter: blur(2px);
+    }
+    .sticky-cta__label--enter {
+      transform: translateY(110%);
+      opacity: 0;
+      filter: blur(2px);
+    }
+
+    /* =========================================
+       RESPONSIVE — TABLET (≤ 1024px)
+       ========================================= */
+    @media (max-width: 1024px) {
+
+      /* Remove vertical edge lines only */
+      .page {
+        border-left: none;
+        border-right: none;
+      }
+      .inner-lines {
+        border-left: none;
+        border-right: none;
+      }
+      .footer-inner-lines {
+        display: none;
+      }
+      .footer-right-line {
+        display: none;
+      }
+      .footer-arc {
+        display: none;
+      }
+
+      /* Section closed frame: remove left/right, keep top/bottom */
+      .section-frame--closed .section-frame__lines::before {
+        border-left: none;
+        border-right: none;
+        left: 0; right: 0;
+      }
+
+      /* Hero */
+      .hero { padding: 0 24px; }
+      .hero-text { max-width: 100%; }
+      .hero-headline {
+        font-size: 56px; line-height: 64px; letter-spacing: -2px;
+      }
+      .hero-subtitle {
+        font-size: 20px; line-height: 28px;
+      }
+
+      /* Hide inline CTAs, show sticky bar */
+      .hero-cta { display: none; }
+      .report-credibility { margin-top: 0; }
+      .sticky-cta { display: block; }
+
+      /* Bento: stack */
+      .bento-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .bento-card { height: auto; min-height: 280px; }
+
+      /* Pills: horizontal scroll */
+      .pills-row {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        justify-content: flex-start;
+        padding: 0 24px;
+        margin: 0 -24px;
+        gap: 8px;
+      }
+      .pills-row::-webkit-scrollbar { display: none; }
+      .pills-row .pill-lg { flex-shrink: 0; }
+
+      /* Masters */
+      .masters-section { padding: 32px 24px 24px; }
+      .masters-headline { font-size: 28px; line-height: 36px; }
+
+      /* Path */
+      .path-section { padding: 60px 24px 48px; }
+      .path-headline { font-size: 28px; line-height: 36px; }
+      .path-stats { gap: 32px; }
+      .path-stat__number { font-size: 44px; }
+
+      /* Report */
+      .report-section { padding: 0 24px; }
+
+      /* Footer */
+      .site-footer {
+        padding: 48px 24px;
+        gap: 32px;
+      }
+      .footer-main {
+        padding-right: 0;
+        gap: 48px;
+      }
+      .footer-logo svg { height: 43px; width: auto; }
+      .footer-content {
+        flex-direction: column;
+        gap: 48px;
+      }
+      .footer-email { order: -1; }
+      .footer-email__heading {
+        font-size: 18px; line-height: 22px; letter-spacing: -0.54px;
+      }
+      .footer-links {
+        flex-direction: column;
+        gap: 32px;
+      }
+      .footer-col__heading {
+        font-size: 18px; line-height: 22px; letter-spacing: -0.54px;
+      }
+      .footer-bottom__copy { font-size: 12px; }
+
+      /* Page content spacing — extra bottom for sticky CTA */
+      .page-content { gap: 48px; padding: 32px 0 80px; }
+    }
+
+    /* =========================================
+       RESPONSIVE — MOBILE (≤ 768px)
+       ========================================= */
+    @media (max-width: 768px) {
+
+      /* Hero */
+      .hero { padding: 0 20px; gap: 32px; }
+      .hero-headline {
+        font-size: 40px; line-height: 48px; letter-spacing: -1.5px;
+      }
+      .hero-subtitle {
+        font-size: 18px; line-height: 26px;
+      }
+
+      /* Bento */
+      .bento-card { height: auto; min-height: 240px; padding: 20px; }
+      .bento-card__title { font-size: 18px; line-height: 22px; }
+
+      /* Heatmap: tighter on mobile */
+      .heatmap-header { grid-template-columns: 80px repeat(5, 1fr); }
+      .heatmap-row { grid-template-columns: 80px repeat(5, 1fr); }
+
+      /* Pills margin */
+      .pills-row { margin: 0 -20px; padding: 0 20px; }
+
+      /* Masters */
+      .masters-section { padding: 24px 20px; }
+      .masters-headline { font-size: 24px; line-height: 32px; }
+
+      /* Path: stack stats */
+      .path-section { padding: 48px 20px 40px; gap: 24px; }
+      .path-headline { font-size: 24px; line-height: 32px; }
+      .path-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+        max-width: 320px;
+      }
+      .path-stat__divider {
+        width: 80px; height: 1px;
+      }
+      .path-stat__number { font-size: 40px; }
+      .path-stat__desc { max-width: 280px; }
+
+      /* Report */
+      .report-section { padding: 0 20px; }
+
+      /* Sticky CTA: stack on narrow */
+      .sticky-cta { padding: 20px 20px 16px; }
+
+      /* Footer */
+      .site-footer { padding: 48px 20px; }
+      .footer-content { gap: 40px; }
+      .footer-links { gap: 28px; }
+
+      /* Page content spacing */
+      .page-content { gap: 40px; padding: 24px 0 80px; }
+
+      /* Grid bg */
+      .grid-bg { height: 500px; }
+    }
+
+    /* Very narrow screens */
+    @media (max-width: 420px) {
+      .sticky-cta__form {
+        flex-direction: column;
+      }
+      .sticky-cta__input { width: 100%; }
+      .sticky-cta__btn { width: 100%; height: 44px; }
+
+      .hero-headline {
+        font-size: 34px; line-height: 40px; letter-spacing: -1.2px;
+      }
     }
   </style>
 </head>
@@ -614,7 +923,7 @@
     </nav>
 
     <div class="page-content">
-      <section class="hero">
+      <section class="hero" data-cta-copy="Get your report">
         <div class="hero-text">
           <h1 class="hero-headline">The Maven Skills Index</h1>
           <p class="hero-subtitle">Everything's changing. Not everything's worth learning. Find out what matters for your role in 2026.</p>
@@ -688,6 +997,15 @@
         </form>
       </section>
 
+    </div>
+
+    <div class="sticky-cta" id="stickyCta" aria-label="Sign up">
+      <form class="sticky-cta__form" onsubmit="return false;">
+        <input type="email" class="sticky-cta__input" placeholder="Enter your email" autocomplete="email" spellcheck="false">
+        <button type="submit" class="sticky-cta__btn">
+          <span class="sticky-cta__label" id="stickyCtaLabel">Get your report</span>
+        </button>
+      </form>
     </div>
 
     <footer class="site-footer">
@@ -1411,7 +1729,7 @@
       sbCanvas = document.getElementById('sunburstCanvas');
       sbCtx = sbCanvas.getContext('2d');
       resizeSunburst();
-      window.addEventListener('resize', () => { resizeSunburst(); });
+      window.addEventListener('resize', () => { resizeSunburst(); drawSunburst(); });
       drawSunburst();
     }
 
@@ -1621,12 +1939,91 @@
     // =============================================
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // =============================================
+    // STICKY CTA BAR
+    // =============================================
+    function initStickyCta() {
+      const bar = document.getElementById('stickyCta');
+      const label = document.getElementById('stickyCtaLabel');
+      const footer = document.querySelector('.site-footer');
+      if (!bar || !label) return;
+
+      const isMobile = () => window.matchMedia('(max-width: 1024px)').matches;
+      let currentCopy = label.textContent;
+      let isAnimating = false;
+
+      function animateCopy(newCopy) {
+        if (newCopy === currentCopy || isAnimating) return;
+        isAnimating = true;
+
+        if (prefersReducedMotion) {
+          label.textContent = newCopy;
+          currentCopy = newCopy;
+          isAnimating = false;
+          return;
+        }
+
+        label.classList.add('sticky-cta__label--exit');
+
+        setTimeout(() => {
+          label.textContent = newCopy;
+          label.classList.remove('sticky-cta__label--exit');
+          label.classList.add('sticky-cta__label--enter');
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              label.classList.remove('sticky-cta__label--enter');
+              currentCopy = newCopy;
+              setTimeout(() => { isAnimating = false; }, 220);
+            });
+          });
+        }, 200);
+      }
+
+      const sections = document.querySelectorAll('[data-cta-copy]');
+      const sectionObserver = new IntersectionObserver((entries) => {
+        if (!isMobile()) return;
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateCopy(entry.target.dataset.ctaCopy);
+          }
+        });
+      }, { threshold: 0.25 });
+      sections.forEach(s => sectionObserver.observe(s));
+
+      const footerObserver = new IntersectionObserver((entries) => {
+        if (!isMobile()) return;
+        entries.forEach(entry => {
+          bar.classList.toggle('sticky-cta--visible', !entry.isIntersecting);
+        });
+      }, { threshold: 0.05 });
+      if (footer) footerObserver.observe(footer);
+
+      let showTimeout;
+      function checkVisibility() {
+        if (isMobile()) {
+          clearTimeout(showTimeout);
+          showTimeout = setTimeout(() => {
+            const footerRect = footer ? footer.getBoundingClientRect() : null;
+            const footerVisible = footerRect && footerRect.top < window.innerHeight;
+            if (!footerVisible) bar.classList.add('sticky-cta--visible');
+          }, 300);
+        } else {
+          bar.classList.remove('sticky-cta--visible');
+        }
+      }
+
+      window.addEventListener('resize', checkVisibility);
+      checkVisibility();
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       renderPills();
       buildCarousel();
       renderRaceChart();
       initSunburst();
       renderHeatmap();
+      initStickyCta();
       if (!prefersReducedMotion) startRotation();
       preloadNextCategory();
     });
